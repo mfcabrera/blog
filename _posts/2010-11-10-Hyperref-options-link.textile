@@ -1,0 +1,14 @@
+---
+layout: post
+title: Hyperref Options Link
+author: Miguel Cabrera
+category: misc-tech
+published: true
+---
+
+If you ever need to know all the options of the Latex package "Hyperref":http://www.tug.org/applications/hyperref/ (that nifty package that allows you to create nice TOC and Link inside a latex document you may check "this link":http://www.misojiro.t.u-tokyo.ac.jp/suribt/hyperref_options.pdf
+
+
+Now if you want to use hyperref along with "Org-Mode":http://orgmode.org you may want to put something like this on top of you .org file. 
+
+<script src="https://gist.github.com/733294.js"> </script>

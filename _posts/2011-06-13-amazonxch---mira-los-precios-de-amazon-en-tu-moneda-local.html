@@ -1,0 +1,84 @@
+---
+title: AmazonXCH - Mira los precios de Amazon en tu Moneda Local
+layout: post
+ON: <2011-06-13 Mon>
+author: Miguel Cabrera
+category: projects
+published: true
+CATEGORY: projects
+---
+
+<div id="outline-container-1" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+Cuando yo tengo un viaje a estados unidos o algún amigo viaja para allá,
+mucho de nosotros aprovechamos y compramos cosas. Uno de los  sitios favoritos
+para comprar en USA tanto mio como de mis compañeros de trabajo es
+<a href="http://www.amazon.com">Amazon</a>. Los precios, como es de esperar, están en dolares, por tanto tenemos
+dos opciones para ver los precios en nuestra moneda local: 1. Hacemos el
+calculo aproximado (por ejemplo 1 dolar = 2000 pesos) o 2. usamos una
+sencilla calculadora y juiciosamente realizamos el calculo. También, si usamos algún buen navegador podremos usar
+alguna <a href="https://chrome.google.com/webstore/detail/lncdobdbibdgoiohgnflmjajfphcnakg">extensión</a> que nos ayude con ese calculo.  
+</p>
+<p>
+Sin embargo, lo ideal sería poder ver precios de nuestra moneda local
+directamente en Amazon. Dado que no vi ninguna extensión que hiciese eso (y
+la verdad no busqué de a mucho) y que también que tenia ganas de aprender
+Javascript (por eso del HTML5) decidí hacerme una extensión para Google
+Chrome (el navegador que uso) que hiciese precisamente eso, mostrar los
+precios en la moneda local. (En mi caso COP).
+</p>
+
+
+   <div class="image-right">
+<p>
+<a href="https://chrome.google.com/webstore/detail/jdfbkldlalhlfgmphkehdlabhanbldmp"><img src="http://mfcabrera.com/files/images/icon-big.png"/></a>
+   </div>
+</p>
+<p>
+Se llama Amazon-XCH  y la la desarrollé basandome en la extensión  <a href="https://chrome.google.com/webstore/detail/lncdobdbibdgoiohgnflmjajfphcnakg">Currency Converter</a> para
+Chrome, es decir,  usa como fuente de datos <a href="http://finance.yahoo.com/">Yahoo Finance</a>, por tanto usa los
+datos en tiempo real del mercado internacional no la TRM (tasa oficial)  del día, sin embargo
+es un buen aproximado, además de permitirle a la extensión mostrar los
+precios en cualquier moneda del mundo :-). El precio aparece entre parentesis
+luego del precio original en dolares (depronto cambio esto en el futuro cercano).
+</p>
+<p>
+Dado que es la primer aproximación el código no es de lo mejor,
+adicionalmente hay algunos inconvenientes en los que trabajaré si el tiempo
+me lo permite:
+</p>
+<ul>
+<li>
+Cuando el precio hay que verlo en el carrito ("see price in cart") para que
+se muestre el precio hay que darle click al link, cerrar el frame y darle
+click otra vez.
+</li>
+<li>
+Los precio desaparece cuando un producto tiene varias opciones de
+configuración (como el Kindle 3G). 
+
+</li>
+</ul>
+
+<p>Pueden descargar la extensión desde la <a href="https://chrome.google.com/webstore/detail/jdfbkldlalhlfgmphkehdlabhanbldmp">Google Chrome WebStore</a>. 
+</p>
+<p>
+El código fuente (licenciado como MIT) pueden verlo en <a href="https://github.com/mfcabrera/amazon-xch">Github</a>.
+</p>
+<p>
+Creo que debería hacer un post similar a este en inglés pero es algo tarde y tengo sueño.
+</p>
+
+<p>
+Buena noche.
+</p>
+
+
+
+
+</div>
+</div>

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Source Code used in the Project</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-03-16 09:13:22 CET"/>
+<meta name="author" content="Miguel Fernando Cabrera"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">Source Code used in the Project</h1>
+
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Source Code </a>
+<ul>
+<li><a href="#sec-1.1">1.1 Variable selection in R </a></li>
+<li><a href="#sec-1.2">1.2 Logistic Regression Training </a></li>
+<li><a href="#sec-1.3">1.3 Linear and RBF with with cross validation </a></li>
+<li><a href="#sec-1.4">1.4 Pyhton code for generating some graphs </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Source Code </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Variable selection in R </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>Variable selection in based on <a href="http://www.uccor.edu.ar/paginas/seminarios/Software/SVM_RFE_R_implementation.pdf">http://www.uccor.edu.ar/paginas/seminarios/Software/SVM_RFE_R_implementation.pdf</a>
+</p>
+
+
+
+<pre class="src src-r"> 
+####################################
+# RFE parameters
+####################################
+library(ipred)
+library(e1071)
+
+#Custom Functions
+svmFuncs &lt;- caretFuncs #Default caret functions
+
+
+#SVM Ranking function
+svmFuncs$rank &lt;- function (object, x, y) {
+        w &lt;- t(coef(object$finalModel)[[1]]) %*% object$finalModel@xmatrix[[1]]
+        vimp &lt;- data.frame(t(w)*t(w))
+        names(vimp)[1] &lt;- 'vimp'
+        vimp$var &lt;- row.names(vimp)
+        order &lt;- 1/(vimp$vimp)
+        vimp &lt;- vimp[order(order),]
+        vimp$'Overall' &lt;- seq(nrow(vimp),1)
+        vimp
+}
+
+
+RFEcontrol &lt;- rfeControl(
+                functions = svmFuncs,
+                method = <span style="color: #8b0000;">"repeatedCV"</span>,
+                number = 10,
+                repeats = 10,
+                rerank = FALSE,
+                returnResamp = <span style="color: #8b0000;">"final"</span>,
+                saveDetails = FALSE,
+                verbose = TRUE)
+
+TrainControl=trainControl(
+                method = <span style="color: #8b0000;">"repeatedCV"</span>,
+                number=10,
+                repeats=1,
+                returnResamp = <span style="color: #8b0000;">"all"</span>,
+                classProbs = TRUE,
+                summaryFunction=twoClassSummary
+                )
+
+
+
+
+x &lt;- trainset[,xnames]
+y &lt;- trainset$Target
+
+RFE &lt;- rfe(x,y,sizes = seq(130,160,by=10),
+        method='svmLinear',
+        tuneGrid = expand.grid(.C=1),
+        metric='ROC',
+        maximize=TRUE,
+        rfeControl = RFEcontrol,
+        trControl = TrainControl)
+
+NewVars &lt;- RFE$optVariables
+RFE
+plot(RFE)
+
+</pre>
+
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Logistic Regression Training </h3>
+<div class="outline-text-3" id="text-1.2">
+
+
+<p>
+More info on this on: <a href="http://cran.r-project.org/web/packages/glmnet/index.html">http://cran.r-project.org/web/packages/glmnet/index.html</a>
+</p>
+
+
+
+<pre class="src src-r"> 
+ library('caTools')
+ library('caret')
+ library('glmnet')
+ library('ipred')
+ library('e1071')
+
+ Data &lt;- read.csv(<span style="color: #8b0000;">"overfitting.csv"</span>, header=TRUE)
+ 
+ Data$Target &lt;- as.factor(ifelse(Data$Target_Practice ==1,'X1','X0'))
+ Data$Target_Evaluate = NULL
+ Data$Target_Leaderboard = NULL
+ Data$Target_Practice = NULL
+ xnames &lt;- setdiff(names(Data),c('Target','case_id','train'))
+
+ #Order
+ Data &lt;- Data[,c('Target','case_id','train',xnames)]
+
+ #Split to train and test
+ trainset = Data[Data$train == 1,]
+ testset = Data[Data$train == 0,]
+
+ #Remove unwanted columns
+ trainset$case_id = NULL
+ trainset$train = NULL
+ 
+
+MyTrainControl=trainControl(
+              method = <span style="color: #8b0000;">"repeatedCV"</span>,
+              number=10,
+              repeats=5,
+              returnResamp = <span style="color: #8b0000;">"all"</span>,
+              classProbs = TRUE,
+              summaryFunction=twoClassSummary
+              )
+
+ theTarget &lt;- 'Target'
+ theFormula &lt;- as.formula(paste(theTarget,<span style="color: #8b0000;">" ~ . "</span>))
+
+ # train the model using the training control defined 
+ model &lt;- train(theFormula,data=trainset,method='glmnet',
+          metric = <span style="color: #8b0000;">"ROC"</span>,
+          tuneGrid = expand.grid(.alpha=c(0,1),.lambda=seq(0,.25,by=0.005)),
+          trControl=MyTrainControl)
+           
+# testing and get AUC 
+test &lt;- predict(model, newdata=testset, type  = <span style="color: #8b0000;">"prob"</span>)          
+
+ colAUC(test, testset$Target)
+
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Linear and RBF with with cross validation </h3>
+<div class="outline-text-3" id="text-1.3">
+
+
+
+
+
+<pre class="src src-r"> #Load Required Packages
+library('caTools')
+library('caret')
+library('glmnet')
+library('ipred')
+library('e1071')
+
+#data reading and setup
+
+Data &lt;- read.csv(<span style="color: #8b0000;">"overfitting.csv"</span>, header=TRUE)
+
+Data$Target &lt;- as.factor(ifelse(Data$Target_Practice==1,'X1','X0'))
+Data$Target_Evaluate = NULL
+Data$Target_Leaderboard = NULL
+Data$Target_Practice = NULL
+vars &lt;- setdiff(names(Data),c('Target','case_id','train'))
+
+#Order
+Data &lt;- Data[,c('Target','case_id','train',vars)]
+
+#Split to train and test
+trainset = Data[Data$train == 1,]
+testset = Data[Data$train == 0,]
+
+#Remove unwanted columns
+trainset$case_id = NULL
+trainset$train = NULL
+
+#10-Fold cross validation
+MyTrainControl=trainControl(
+                method = <span style="color: #8b0000;">"repeatedCV"</span>,
+                number=10,
+                repeats=5,
+                returnResamp = <span style="color: #8b0000;">"all"</span>,
+                classProbs = TRUE,
+                summaryFunction=twoClassSummary
+                )
+
+
+# use all variables.
+FL &lt;- as.formula(paste(<span style="color: #8b0000;">"Target ~ "</span>, paste(vars, collapse= <span style="color: #8b0000;">"+"</span>)))
+
+#use new variables selected
+# FL &lt;- as.formula(paste(<span style="color: #8b0000;">"Target ~ "</span>, paste(NewVars, collapse= <span style="color: #8b0000;">"+"</span>)))
+
+library(kernlab)
+
+model &lt;- train(FL,data=trainset,method='svmLinear',
+        metric = <span style="color: #8b0000;">"ROC"</span>,
+        probability=TRUE,
+        tuneLength=7,
+        trControl=MyTrainControl)
+#
+
+# SVM Radial
+#model &lt;- train(FL,data=trainset,method='svmRadial',
+#        metric = <span style="color: #8b0000;">"ROC"</span>,
+#        probability=TRUE,
+#        tuneLength=7,
+#        trControl=MyTrainControl)
+
+
+
+plot(model,metric = <span style="color: #8b0000;">"ROC"</span>)
+test &lt;- predict(model, newdata=testset, type  = <span style="color: #8b0000;">"prob"</span>)
+colAUC(test, testset$Target)
+
+</pre>
+
+
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="section-number-3">1.4</span> Pyhton code for generating some graphs </h3>
+<div class="outline-text-3" id="text-1.4">
+
+
+<p>
+Python ROC curves look much more nice. beware the identation.
+</p>
+
+
+<pre class="src src-python">  
+
+  <span style="color: #00008b;">import</span> numpy <span style="color: #00008b;">as</span> np
+  <span style="color: #00008b;">import</span> pylab <span style="color: #00008b;">as</span> pl
+  <span style="color: #00008b;">from</span> sklearn <span style="color: #00008b;">import</span> svm, datasets
+  <span style="color: #00008b;">from</span> sklearn.utils <span style="color: #00008b;">import</span> shuffle
+  <span style="color: #00008b;">from</span> sklearn.metrics <span style="color: #00008b;">import</span> roc_curve, auc
+  
+  <span style="color: #8c8c8c; font-style: italic;">#Calculate auc for each value c parameter of TSVM
+</span>
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.c9"</span>)
+  fpr9, tpr9, thresholds9 = roc_curve(test,ar)
+  roc_auc9 = auc(fpr9,tpr9)
+
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.c1"</span>)
+  fpr1, tpr1, thresholds1 = roc_curve(test,ar)
+  roc_auc1 = auc(fpr1,tpr1)
+
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.c3"</span>)
+  fpr3, tpr3, thresholds3 = roc_curve(test,ar)
+  roc_auc3 = auc(fpr3,tpr3)
+  
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.cd25"</span>)
+  fprd25, tprd25, thresholdsd25 = roc_curve(test,ar)
+  roc_aucd25 = auc(fprd25,tprd25)
+  
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.cd50"</span>)
+  fprd50, tprd50, thresholdsd50 = roc_curve(test,ar)
+  roc_aucd50 = auc(fprd50,tprd50)
+
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.c5"</span>)
+  fpr5, tpr5, thresholds5 = roc_curve(test,ar)
+  roc_auc5 = auc(fpr5,tpr5)
+
+  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.c7"</span>)
+  fpr7, tpr7, thresholds7 = roc_curve(test,ar)
+  roc_auc7 = auc(fpr7,tpr7)
+
+  <span style="color: #8c8c8c; font-style: italic;">#auto
+</span>  ar = np.loadtxt(<span style="color: #8b0000;">"classification.test.c0"</span>)
+  fpr0, tpr0, thresholds0 = roc_curve(test,ar)
+  roc_auc0 = auc(fpr0,tpr0)
+
+  
+pl.clf()
+
+pl.plot(fpr0, tpr0, label=<span style="color: #8b0000;">'C=Auto ROC curve (area = %0.2f)'</span> % roc_auc0)
+  
+  
+pl.plot(fpr1, tpr1, label=<span style="color: #8b0000;">'C=1 ROC curve (area = %0.2f)'</span> % roc_auc1)
+  
+pl.plot(fpr3, tpr3, label=<span style="color: #8b0000;">'C=3 ROC curve (area = %0.2f)'</span> % roc_auc3)
+  
+  
+pl.plot(fpr5, tpr5, label=<span style="color: #8b0000;">'C=5 ROC curve (area = %0.2f)'</span> % roc_auc5)
+  
+pl.plot(fpr7, tpr7, label=<span style="color: #8b0000;">'C=7 ROC curve (area = %0.2f)'</span> % roc_auc7)
+  
+pl.plot(fpr9, tpr9, label=<span style="color: #8b0000;">'C=9 ROC curve (area = %0.2f)'</span> % roc_auc9)
+pl.plot(fprd25, tprd25, label=<span style="color: #8b0000;">'C=0.25 ROC curve (area = %0.2f)'</span> % roc_auc25)
+pl.plot(fprd50, tprd50, label=<span style="color: #8b0000;">'C=0.50 ROC curve (area = %0.2f)'</span> % roc_auc50)
+  
+
+pl.plot([0, 1], [0, 1], <span style="color: #8b0000;">'k--'</span>)
+pl.xlim([0.0, 1.0])
+pl.ylim([0.0, 1.0])
+pl.xlabel(<span style="color: #8b0000;">'False Positive Rate'</span>)
+pl.ylabel(<span style="color: #8b0000;">'True Positive Rate'</span>)
+pl.title(<span style="color: #8b0000;">'Receiver operating characteristic Transductive SVM'</span>)
+pl.legend(loc=<span style="color: #8b0000;">"lower right"</span>)
+pl.show()
+</pre>
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: Miguel Fernando Cabrera
+<a href="mailto:miguel.cabrera@tum.de">&lt;miguel.cabrera@tum.de&gt;</a>
+</p>
+<p class="date"> Date: 2012-03-16 09:13:22 CET</p>
+<p class="creator">HTML generated by org-mode 6.34trans in emacs 23</p>
+</div>
+</div>
+</body>
+</html>

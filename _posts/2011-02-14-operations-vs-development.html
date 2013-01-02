@@ -1,0 +1,283 @@
+---
+title: Operations vs Development
+layout: post
+ON: <2011-02-14 lun>
+author: Miguel Cabrera
+category: enterprise
+CATEGORY: enterprise
+---
+
+<div id="outline-container-1" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+Since I graduate from college (actually a little bit before that) I always
+felt like I was in between worlds. I had a lot of friends from the university that had very
+defined profiles and skill sets. Generally, they were either Developers (some
+of them very good coders) or they were oriented towards networking and systems
+administration (many of them <b>literally</b> hated programming).<sup><a class="footref" name="fnr.1" href="#fn.1">1</a></sup>
+</p>
+
+<p>
+Nowadays, I still feel like a hybrid between the Sysadmin and Software
+Developer. Even though now I am "Software Architect" in a software
+development department, I really do a lot of stuff that is related to the operations part. As my team generally
+defines the best practices and the technology to use company-wise, It is
+crucial for us to be well versed in <i>sysadmin</i> tasks.
+</p>
+<p>
+As I mentioned above, my team has to define/develop many of the technologies that the other
+development teams use, that includes SCM procedures tools, integration 
+technologies, application servers, shared libraries, development environments, common functionality
+libraries and so on. As you  see, many of these activities require  a lot of
+interaction with operations people. So, we generally end up working, or at
+least talking, with the operations crew much more frequently that the common Software Developer. Sometimes,  we even have to perform "operation's"
+activities on our development environment first, and then send a "How-to" manual to the operation people to perform.
+</p>
+<p>
+As is common in many enterprises, Operations is  clearly separated from
+Development and from QA. Moreover, QA is also split in two different
+teams: the "Technical QA" which "belongs" to Operations and the "Functional
+QA"  which belongs to Software Development department <sup><a class="footref" name="fnr.2" href="#fn.2">2</a></sup>.  So, my company  is no different from a common enterprise, both areas  have
+different agendas and they both claim to be "<b>aligned</b>" with the "<b>strategic objectives</b>" of the business. However,  when it comes to get a new
+application to production (which includes getting the hardware, testing,
+preparing the environments, and other related task) or simply releasing a new
+version of an already existing application into production, all the process (even in
+our development department) are either manual, duplicated or extremely tedious. And
+generally a combination of all of them. 
+</p>
+<p>
+Currently,  we are in the process of improving our Software Development
+Methodology. I am in charge of the SCM process definition, but only for the
+dev team. But this is no easy task, given the broad scope of the process and that we are basically in diapers when referring to CM.  Some could think
+that this is a great opportunity for us to automate and improve these process, including
+Release Management and Build Engineering (namely, continuous integration, unit
+testing and other industry  best practices). However, although we certainly would
+do better if we apply this to our processes, at the end, we would hit
+operations' "wall" nevertheless.
+</p>
+<p>
+In the beginning I believed operations was a bottle-neck because they were
+just not agile as they should, or not as good as they should. But there was another factor I did not take
+into account. Operations inherently wants to prevent change, given that they are the
+responsible for the stability of the system and they are also rewarded for
+that.  If you make  changes (e.g
+deploys, new applications, etc) possibilities of making the whole
+system unstable increases. But if you <b>do</b> stop changes (or make the
+process of releasing  new changes extremely cumbersome) the
+change will be accumulative and <i>big changes are far more dangerous</i> than
+small ones.<sup><a class="footref" name="fnr.3" href="#fn.3">3</a></sup>
+</p>
+
+
+   <div class="image-right colorbg">
+<p>
+<img src="http://dev2ops.org/storage/WallOfConfusion.png"  alt="http://dev2ops.org/storage/WallOfConfusion.png" />
+   <p>The "wall of confusion"<a
+  href="http://dev2ops.org/blog/2010/2/22/what-is-devops.html"> Source </a></p>
+  </div>
+
+  
+
+
+So, what are the specific problems I think we have when comes to our overall
+<a href="http://en.wikipedia.org/wiki/Systems_Development_Life_Cycle">SDLC</a> process:
+</p>
+<ul>
+<li>
+<b>Information silos</b>. We have different systems to handle requirements from
+users, task planning, bug database, test results and deployment requirement.  That is not necessarily
+bad, but none of those systems are connected, so each of them have a 
+work-flow and database. Therefore, there is no way to trace back a change with a release
+to production or to bug (issue).
+</li>
+<li>
+<b>Cumbersome Processes</b>: The process of getting a new application on-line is cumbersome, filled with
+a lot formats that ask impossible question to answer.
+</li>
+<li>
+<b>Manual  Build &amp; Release Process</b>: Once the application is "on-line" and we want to release a new version of
+the software all is done "manually", from the compilation, testing  to the
+configuration of environments. Some of those task are requested using
+ticketing system, asking for the same information over and over (We have even two
+different process for asking the same stuff and performing the same
+task). In other words  a <i>Build and Release</i> process should be created.
+</li>
+<li>
+<b>Manual Environment Management</b> The environment administration  is done also manually, and a lot of problems
+occurs when a change is requested. Finding the origin of the change is
+difficult if  not impossible. Environment configuration should be baselined
+and handled using appropriate tools. (Like  or <a href="http://www.opscode.com/chef/">Chef</a> or <a href="http://www.puppetlabs.com/">Puppet</a>, just to name
+some Open Source alternatives). That is, the environments should be first
+class citizens and automated process for managing the changes should be put
+in place.
+</li>
+<li>
+<b>Dependency Management</b> is not managed at all by operations, I had to create
+a <a href="http://subversion.apache.org/">Subversion</a> repository with some manual procedures in order to stabilize the
+system. (See my <a href="http://mfcabrera.com/coding/2010/06/18/ruby-graphviz-playing.html">older post</a>). We have minimized the problem of "It works on
+my machine". However, there is still problems with configuration files that are not
+managed at all.
+</li>
+<li>
+<b>Split QA Teams</b>: The QA department is split in two, technical and "functional", each managed
+differently and with different tooling and objectives. Many of the test are
+manual, making them difficult to re-schedule. There is no Code Coverage or
+Automated Unit Testing, only System testing. This not only makes the QA
+process slow but also may prevent  a proper identification of application
+issues. I believe also the communication between teams (QA, Ops and Dev)
+can be improved.
+
+</li>
+</ul>
+
+<p>We have more or less  a broad view  of the problems, and It is evident that
+if Operations and and Development worked together this could a lot of them
+could be tackled. Recently, a new "approach" called DevOps have taken
+strength in the last few years.  Wikipedia (and the Original
+article) defines DevOps as 
+</p>
+<blockquote>
+
+<p>[&hellip;] a set of processes, methods and systems for communication,
+collaboration and integration between departments for development
+(applications/software engineering), technology operations and quality assurance (QA).
+</p>
+</blockquote>
+
+
+
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1">DevOps Approach vs Traditional Thinking:</h3>
+<div class="outline-text-3" id="text-1.1">
+
+
+<p>
+Based on the <a href="http://www.slideshare.net/jallspaw/10-deploys-per-day-dev-and-ops-cooperation-at-flickr">This presentation by John Allspaw</a>  (from Flickr) here's the traditional
+thinking (slightly modified):
+</p>
+
+<p class="verse">
+Developers job is to create software and add features.<br/>
+Operations job is keep the site stable and fast.<br/>
+</p>
+
+
+<p>
+But  the truth is that 
+</p>
+
+<p class="verse">
+Operations job is NOT to  keep the site stable and fast.<br/>
+Operations job is to ENABLE the business <br/>
+Change is the root of all failures and outages<br/>
+</p>
+
+
+
+
+
+  <div class="image-center">
+
+<p>
+<img src="http://upload.wikimedia.org/wikipedia/commons/4/4e/Devops.png"  alt="http://upload.wikimedia.org/wikipedia/commons/4/4e/Devops.png" />
+</p>
+
+
+  </div>
+
+
+<p>
+Basically, what DevOps is saying is that we areas should communicate more,
+or at least more assertive, tools and methodologies should be used to
+automate from the build process to release process. Which is an area that
+"belongs" to the Configuration Management set of processes. In other words, it creates  new ways of integration between QA, Operations by
+Development by creating a culture, a set of process and automation tools, to lower the risk and support change, instead of avoiding it. 
+Right now the <a href="http://dev2ops.org/blog/2010/2/22/what-is-devops.html">definition</a> is still somewhat unclear, however, at the end,
+what is being proposed is a pattern for  managing IT areas.
+</p>
+<p>
+Let me be clear, I am not arguing that my company should jump into the DevOps approach in
+order to succeed. However I do believe that DevOps people propose is
+valuable, those thing need to be taken into consideration urgently in my organization. They 
+are:
+</p>
+<ul>
+<li>
+Serious <b>Change in the culture</b> in both areas.<sup><a class="footref" name="fnr.4" href="#fn.4">4</a></sup>
+</li>
+<li>
+<b>Unified processes</b>: The SDLC should be unified and the appropiate
+metrics should be defined.
+</li>
+<li>
+<b>Unified Tooling</b>: Tools using in  both sides should be the same, including
+versioning, ticketing system and version control system.
+</li>
+<li>
+<b>Version controlled Software Library</b>. 
+</li>
+<li>
+<b>Version controlled Environments</b>
+</li>
+<li>
+<b>Automation</b> of Manual Task, including testing and  deployment.
+</li>
+<li>
+Assertive <b>communication</b> (whatever that means in context).
+
+</li>
+</ul>
+
+<p>Some folks in my organization argue that they are <i>just following ITIL</i> to counter
+my argument a about their responsibilities in some of the task I just
+mentioned above.  Either they forget completely about the <a href="#htp://wiki.en.it-processmaps.com/index.php/ITIL_V3_Service_Transition">ITIL Service Transition process</a> or their interpretation is quite limited to the
+minimum effort to get it done. In either way, you can implement the process
+in any way you like. The fact that you follow ITIL by doing some archaic process does not make you
+better than a organization that does not know what <i>ITIL</i> is, but has a
+highly automated and optimized processes. I mean, it is just a matter of
+common sense.
+</p>
+
+<p>
+To summarize, I believe that Suramericana should re-think the whole
+SDLC process, with a strong emphasis in  the definition and application of a good
+Configuration Management process across the areas (including Operations), with specific emphasis in
+the  Build Engineering, Release Management, Environment Management processes
+and strong emphasis in inter team communication  in order to solve the issues
+I just described.
+</p>
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+<p class="footnote"><sup><a class="footnum" name="fn.1" href="#fnr.1">1</a></sup> There was also the ones who did not think to hard about that, they were
+more attracted towards the "management" of software development.
+</p>
+<p class="footnote"><sup><a class="footnum" name="fn.2" href="#fnr.2">2</a></sup> I really believe that QA department should be a completely different
+area, as it seems to be the best practice.
+</p>
+<p class="footnote"><sup><a class="footnum" name="fn.3" href="#fnr.3">3</a></sup> <a href="http://www.slideshare.net/jallspaw/10-deploys-per-day-dev-and-ops-cooperation-at-flickr">10 Deploys Per Day - Dev and Ops Cooperation at Flickr by John Allspaw</a>
+</p>
+<p class="footnote"><sup><a class="footnum" name="fn.4" href="#fnr.4">4</a></sup> I really like the hard way recipe of Ted Dziuba in his DevOps bashing
+<a href="http://teddziuba.com/2011/03/devops-scam.html">article</a>, which includes putting developers on call rotations, making develop
+in the same operating system they deploy and that a making sure a downtime
+never happens again.
+</p>
+</div>
+</div>
