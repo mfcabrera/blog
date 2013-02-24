@@ -6,12 +6,13 @@ category: personal
 published: true
 ---
 
-Por motivos familiares, mi niñez transcurrió entre  distintas ciudades de la costa norte colombiana. no fueron muchas, ni los viajes tan constantes, pero
+Por motivos familiares, mi niñez transcurrió entre  distintas ciudades de la costa norte colombiana. no fueron muchas, ni los viajes tan constantes, peor
 los cambios y/o viajes fueron los suficientemente frecuentes para generar un de alguna manera un desarraigo por costumbres o por ciudades. 
 
-<div class="image-left"><img width="320" heigth="70%" src="http://farm1.static.flickr.com/208/464804301_88547df424.jpg"
-alt="Sucre-Sucre en la mojana" /></div>
-
+<div class="img-left">
+<img class="img-polaroid" width="320" heigth="70%" src="http://farm1.static.flickr.com/208/464804301_88547df424.jpg"
+alt="Sucre-Sucre en la mojana" />
+</div>
 
 Aunque siempre que me preguntan digo que soy "Samario":SantaMarta, Yo realmente nací en "Cartagena de Indias":Cartagena-de-Indias pero solo viví un periodo de tiempo muy corto cuando estaba bebé. En en mi infancia y parte de la adolescencia viaje (y viví) en varias partes de Colombia (incluyendo ciudades y pueblos como "Cali":Cali, "Buga":Buga, Sincelejo, Sucre y por supuesto "Santa Marta":SantaMarta, la ciudad de mi familia materna y el lugar  donde pasé la gran mayoría de mis periodos  vacacionales). Casi todo ese tiempo, estuve en ciudades y pueblos de la costa. Centrandome viajando constantemente entre el departamento de "Sucre":Sucre y "Magdalena":Magdalena.
 
