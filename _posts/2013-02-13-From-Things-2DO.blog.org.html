@@ -1,0 +1,146 @@
+---
+layout: post
+author: Miguel Cabrera
+category: geekness
+published: true  
+title: From Things 2Do 
+date: 2013-02-13
+---
+
+
+
+
+
+
+  <div class="img-left">
+   <img src="/files/images/2do-icon.png"
+ class="img-polaroid"  /> 
+  </div>
+
+<p>
+I have used many TODO and productivity programs. Many of them without
+success. I have used in the last 5 years  a range of applications including simple
+text files, Chandler, TimeTo and even Emacs' <a href="http://orgmode.org">Org-mode</a> (totally awesome). I really
+liked <a href="http://orgmode.org">Org-mode</a>, however, it really got a bit chaotic and the lack of
+structure kind of bothered me. Also, the fact that it integrated bad (or not
+at all) with things like my Google calendar other related services made me
+look for an alternative.
+</p>
+
+
+<p> 
+Around 1.5 years ago I got a Macbook Pro, so I decided to try a Mac based TODO
+list application called <a href="http://culturedcode.com/things/">Things</a>. It was not as completed as Org but it was
+simple and beautiful. Initially it kind of worked OK, but after some months I
+started to notice some limitations regarding of how to handle projects and
+the integration with the calendar. Then, after an update, they changed some
+important features, breaking my "<a href="http://xkcd.com/1173/">workflow</a>".
+</p>
+
+
+
+<p>
+I almost decided to go back to Org but I continued looking for alternatives,
+and I finally found a little jewel called <a href="http://www.2doapp.com/">2Do</a>. It is really similar to Things, but
+brings more structure and semantics for managing ToDos (same structures I
+used in Org-Mode) plus other features that I find interesting, like linking a
+TODO to a particular location and a really good integration with iCloud /
+Calendar.
+</p>
+
+
+
+  
+  <div class="img-center">
+   <img src="http://imgs.xkcd.com/comics/workflow.png"
+  class="img-polaroid" /> 
+  </div>
+
+
+
+<p>
+Now, I have a lot of stuff in Things and I really did not want to copy and
+paste everything.  Also in Thing you can't just copy several TODOs at
+one. So what TODO? (get the pun? :-P). 
+</p>
+
+
+
+  <div class="img-right">
+   <img
+   src="http://cdn.appstorm.net/iphone.appstorm.net/files/2010/01/things-icon.png"
+    width="70%" height="70%" class="img-polaroid" /> 
+  </div>
+
+<p>
+Well I discovered that Things offered and scripting interface using
+AppleScript. I don't really know a lot of Mac OSX and all these things, I come
+from Linux world and anything else but Perl and Bash doesn't sound to me
+really to "script". Anyway it looks like that the Apple guys have a nice
+environment for scripting using this "<a href="https://developer.apple.com/library/mac/#documentation/AppleScript/Conceptual/AppleScriptX/Concepts/osa.html#//apple_ref/doc/uid/TP40001571-BABEBGCF">AppleScript</a>" language (kind of weird, looks
+like Lisp at times). Things offered an  scripting interface and you can
+access this programmatically do pretty much all you want with it You can see
+the capabilities of Things (and other scriptable applications like Finder
+and Evernote) using the AppleScript editor and the dictionary explorer (see
+screen-shot).
+</p>
+
+
+
+
+<p>
+Cool. The problem is now that  2Do
+still doesn't not provide such an interface, but at least if you copy and
+paste several lines from at text file,  it will create a TODO item for each line
+copied. Good enough. 
+</p>
+
+
+
+
+  <div class="img-center">
+  <a href="/files/images/ft2do01.png" target="_blank">
+   <img src="/files/images/ft2do01.png" height="85%" width="85%"
+  /> </a>
+  </div>
+
+
+<p>
+So, I just have to quickly learn this new Scripting language?. Well, not, I
+am to lazy for that (although Things offered <a href="http://downloads.culturedcode.com/things/download/ThingsAppleScriptGuide.pdf">a nice AppleScript guide</a> with a
+nice set of snippet to work with the Things objects). I discovered that Apple
+offered a <i>Scripting Bridge</i> so you can access this scriptable application
+from other languages. So why not use my favorite Language (Ruby) and quickly
+throw some lines and get all my todos into text files so I can easily import
+them into 2Do? Piece of cake, I just need to install <a href="http://www.macruby.org">MacRuby</a> in order to
+access this cool feature. 
+</p>
+
+
+
+
+<p>
+Well, Not so fast cowboy, I can easily access all the objects but there was
+some problems with this. For example AppleScript sometimes properties have spaces and this is not as nicely
+mapped to Ruby as you would expect. After wasting time using irb I found
+this <a href="http://www.silicontrip.net/~mark/view.php/blog/20111214">cool post</a> from a guy who suffered something similar (thanks mate) and I
+found out  how to access the important properties. 
+</p>
+<p>
+So finally this LONG script, run it with MacRuby and check out the code comments
+for extra quirks I found while finding out how to it:
+</p>
+
+
+  <script src="https://gist.github.com/mfcabrera/4949467.js"></script>
+
+<p>
+If I have time and desire  I might make a AppleScript version of this so
+more people can use it.
+</p>
+
+
+
+
+
+

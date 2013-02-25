@@ -16,9 +16,12 @@ So I decided to do something about it. I talked to my boss and we decided to org
 
 Well, while I was doing all this I wanted to have like a graphic representation of the shared libraries and its dependencies. I though that maybe "Graphviz":http://www.graphviz.org/ could help me doing that. As I needed to parse the XML quickly and I am Ruby fan I chose Ruby to implement it, I discovered a Ruby "gem":http://github.com/glejeune/Ruby-Graphviz that generates dot files (Graphviz file format) using Ruby as a DSL for it. So I wrote  a small script (see the end of the post) that took the xml file, parsed it, and based on the references to other libraries, created a graph.  I obtained  a cool image like:
 
-<a href="/files/images/oc4j2gv.png" target="_blank">
-<img src="/files/images/oc4j2gv.png" width="621" height="183" /> 
-</a>
+<div class="img-center">
+  <a href="/files/images/oc4j2gv.png" target="_blank">
+    <img class="img-polarid" src="/files/images/oc4j2gv.png" width="621" height="183" /> 
+  </a>
+
+</div>
 
 As you see above, the name of the shared libraries with the version  are the nodes and directed edges represent the dependencies. For example, we see that log4j have no dependencies and pretty much all of the other libraries depend on it.
 
