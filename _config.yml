@@ -9,7 +9,7 @@ pygments: true
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : Miguel Cabrera's Blog
+title : Miguel Cabrera Blog
 tagline: Nuts and Volts
 author : 
   name : Miguel Cabrera
@@ -19,9 +19,7 @@ author :
   feedburner : feedname
 
 
-# foord the feed rss generation
-
-  
+google_tracking_id : UA-3498704-1
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
@@ -105,7 +103,7 @@ JB :
   analytics :
     provider : google 
     google : 
-        tracking_id : 'UA-123-12'
+        tracking_id : 'UA-3498704-1'
     getclicky :
       site_id : 
     mixpanel :

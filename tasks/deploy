@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+jekyll  --no-server --no-auto  && rsync -avz --delete _site/ mfcabrera@mfcabrera.com:/var/www/mfcabrera/www
+
+
