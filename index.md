@@ -11,7 +11,7 @@ description: Miguel Fernando Cabrera Weblog
 <div class="row">
     
 
-<div class="span6"  id="personal" >
+<div class="span7"  id="personal" >
 <ul>
    
   <li>Currently a <span itemprop="jobTitle">graduate student (M.Sc.) in Informatics</span>
