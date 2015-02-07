@@ -1,0 +1,281 @@
+---
+title:  Playing with word2vec and German
+category: research
+date: 2013-11-14
+layout: post
+author: Miguel Cabrera
+published: true 
+tags: deep_learning,machine_learnig,thesis 
+---
+
+<p>
+I know I had promised before to blog more often but I always find 
+excuses for not doing it :).
+</p>
+
+<p>
+I am right now writing my master thesis, which is good because is already
+about time to finish my M.Sc. program.  After exploring current offerings my
+university, I finally  made up my
+mind and decided to write it inside the company I am currently
+working for. This is actually cool, because allows me to try things with real
+world data.  The main topic is going be around using deep learning for
+<a href="http://en.wikipedia.org/wiki/Natural_Language_Processing">Natural Language Processing</a> (NLP) tasks, in particular to improve the models
+the company currently uses. We might explore other interesting use cases as well.
+</p>
+
+<p>
+My main advisor is going to be <a href="http://www.cis.uni-muenchen.de/people/kristof.html">Christoph Ringlstetter</a>, chief scientist at
+<a href="http://www.gini.net">Gini</a> and Research Fellow at LMU's <a href="http://www.cis.uni-muenchen.de/">Center for Information and Language Processing</a> (CIS). However I am also advised by 
+<a href="http://osdf.github.io/">other cool</a> <a href="https://github.com/bayerj">people</a>  which agreed to help out and offer guidance.
+</p>
+
+<p>
+As I mentioned the focus of my project is going to be Deep Learning
+applications for NLP tasks. The language of focus is going to be German (as
+most of the data in Gini is in  German). That is also funny, because my
+German kind of sucks and <i>Ich bin weit davon entfernt, fließend deutsch sprechen zu können.</i>
+But I think is also good, the idea of Deep Learning isto  learn  features
+without knowing  anything about the data in advance. Also, I will have
+the support from my team Gini and my advisor so I think it will be all right (plus
+a good opportunity to improve my German <i>screaming</i> skills).
+</p>
+
+
+
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As I mentioned before, I am going to be working in <a
+href="http://markus.com/deep-learning-101/">Deep Learning</a>, which is currently one hottest fields in Machine Learning. Deep Learning focuses on learning high level abstract features from unlabeled data. These features can then be used to solve existing problems.</p>
+<p>In the field of Natural Language Processing (NLP) a recent model called <a
+href="https://code.google.com/p/word2vec/">Word2Vec</a> has caught the
+attention from practitioners by its <a
+href="http://radimrehurek.com/2013/09/deep-learning-with-word2vec-and-gensim/">&quot;theoretically-not-so-well-founded-but-pragmatically-superior-mode&quot;</a>.
+Released as an open source project, Word2Vec is an Neural Network Language
+model, developed by Tomas Mikolov and other guys at Google. It creates
+meaningful vector representation of words. Each of the component of the
+vector is somehow a similarity dimension which captures both syntactic and
+semantic information of a word. Check <a href="http://www.thisplusthat.me/" target="_blank">
+ThisPlusThat.me </a> for an example usage and <a href="http://slid.es/christophermoody/thisplusthat">this presentation</a> for a nice explanation.</p>
+<p>For writing the article, I am going to use  Python, which I've fallen in
+love with this year given the huge amount of tools for doing data science /
+machine learning related tasks. There are basically two ways we can use
+use/train  word2vec wordvector from python: one is using the <a
+href="https://pypi.python.org/pypi/word2vec">word2vec wrapper</a> that   <a
+href="http://danielfrg.github.io/">Daniel Rodriguez</a> developed. The other
+way  is to use it through <a href="http://radimrehurek.com/gensim/models/word2vec.html">Gensim</a> by <a href="http://radimrehurek.com/">Radim Rehurek</a>.</p>
+
+<h3>iPython, Word2Vec and Gensim </h3>
+
+<p>As I mentioned I am interested in the behavior of the word representations with the German language so I trained word2vec using the 3x10^9 bytes of the a German Wikipedia dump. To train with the Wikipedia, we have to get the XML dumps and &quot;clean&quot; it from tags. To do that I adapted the script found at the end of <a href="http://mattmahoney.net/dc/textdata.html">this page</a> to German. Basically replacing German &quot;funky&quot; characters. I uploaded the adapted version as a <a href="https://gist.github.com/mfcabrera/7674065">Gist</a>.</p>
+<p>As for the training parameters for this particular test I used the skip-gram model and called word2vec like this:</p>
+<pre>  time word2vec -train dewiki3e9.txt -output de3E9.bin -skipgram 5 -size 200 -window 5 -negative 0 -hs 1 -sample 1e-3 -threads 12 -binary 1 -save-vocab defull-vocab.txt </pre>
+
+<p>For the purpose of this blog, I am choosing Gensim because it is a native
+re-implementation in python and offer nice functionality alread, and for a
+nice interactive programming enviroment I used <a href="http://ipython.org/notebook.html">iPython Notebooks</a> and embedded the HTML output it below.</p>
+<p>So, stop talking and let's start coding:</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[1]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight"><pre><span class="c">#let&#39;s get Gensim. I am assuming you have successfully installed it</span>
+
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">word2vec</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">word2vec</span><span class="o">.</span><span class="n">Word2Vec</span><span class="o">.</span><span class="n">load_word2vec_format</span><span class="p">(</span><span class="s">&#39;../wordvecs/de3E9.bin&#39;</span><span class="p">,</span><span class="n">binary</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This takes time for this particular file. The vector file is almost 1GB and it has to be loaded in memory.<br />Once loaded the model we can some of experiments found in the the paper and see how this particular model performs.<br />One of the cool example if that you can take the vector representing <em>'king'</em> add the vector of <em>'woman'</em> and subtract the vector of <em>'man'</em> and you will get vector which cosine distance is most similar to the vector representing <em>'queen'</em>. Let's see if that is true for this model:</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[3]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight"><pre><span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;koenig&#39;</span><span class="p">,</span> <span class="s">&#39;frau&#39;</span><span class="p">],</span> <span class="n">negative</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;mann&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt output_prompt">
+    Out[3]:</div>
+<div class="box-flex1 output_subarea output_pyout">
+
+
+<pre>
+[(&apos;gemahlin&apos;, 0.72522426),
+ (&apos;gattin&apos;, 0.64882195),
+ (&apos;edgith&apos;, 0.64861459),
+ (&apos;koenigs&apos;, 0.64086556),
+ (&apos;vladislavs&apos;, 0.63747227),
+ (&apos;mitregentin&apos;, 0.63738412),
+ (&apos;koenigsgemahlin&apos;, 0.63574708),
+ (&apos;koenigin&apos;, 0.63131845),
+ (&apos;thronansprueche&apos;, 0.62454271),
+ (&apos;regentin&apos;, 0.62117279)]
+</pre>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Well it does not. But it does not surprise me. We do not have all the data available and the training parameters were chosen arbitrarily so no surprise that it does not work. However We got the word <em>'gemahlin'</em> which is normally useful to refer to the wife of a King (consort). The word <em>'gattin'</em> is also used for spouse. However we do see the word <em>'koenigin'</em> and <em>'koenigsgemahlin'</em> which is the translation for <em>'queen'</em> and 'royal consort'. Let's see whats happen if I just add the words</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[17]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight"><pre><span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;koenig&#39;</span><span class="p">,</span> <span class="s">&#39;frau&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt output_prompt">
+    Out[17]:</div>
+<div class="box-flex1 output_subarea output_pyout">
+
+
+<pre>
+[(&apos;gemahlin&apos;, 0.72934431),
+ (&apos;koenigin&apos;, 0.70212948),
+ (&apos;ehefrau&apos;, 0.67596328),
+ (&apos;gattin&apos;, 0.67325604),
+ (&apos;lieblingstochter&apos;, 0.66053975),
+ (&apos;maetresse&apos;, 0.65074563),
+ (&apos;nantechild&apos;, 0.64813584),
+ (&apos;koenigsgemahlin&apos;, 0.64198864),
+ (&apos;eadgifu&apos;, 0.6408422),
+ (&apos;gemahl&apos;, 0.64082003)]
+</pre>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/7/71/Wei%C3%9Fwurst-1.jpg" alt="Drawing" style="width: 200px; text-align: center; float:right; margin:2em; " /></p>
+<p>Wow well, almost :) - Only adding <em>'frau'</em> to <em>'koenig'</em> gave me in the top positions both <em>'queen'</em> and <em>'consort'</em>.</p>
+<p>As I live in Munich, we often go on Fridays to have a <a href="http://en.wikipedia.org/wiki/Weisswurst"><em>Weisswürstfrühstuck</em></a> or a traditional Müncher/Bayerisch breakfast. It is basically White sausage, sweet mustard and pretzel (accompained with an optional <em>Wiessbier</em> or wheat beer). Let see if our Word2Vec model can differentiate the components of this delicious meal.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[26]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight"><pre><span class="n">model</span><span class="o">.</span><span class="n">doesnt_match</span><span class="p">(</span><span class="s">&quot;wurst senf brezn apfel&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt output_prompt">
+    Out[26]:</div>
+<div class="box-flex1 output_subarea output_pyout">
+
+
+<pre>
+&apos;apfel&apos;
+</pre>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This actually worked pretty well. The model was able to capture that a
+'apple' is not part of the traditional breakfast :)</p>
+<p>On the referenced papers on word2vec web page they describe some task both semantic and syntactic. let's try one of those and see how it works. This question basically asks, <em>'berlin'</em> is to <em>'deutschland'</em> what <em>'london'</em> is to <em>'england'</em>. So basically, country capital relationships.</p>
+</div>
+<div class="cell border-box-sizing code_cell vbox">
+<div class="input hbox">
+<div class="prompt input_prompt">
+In&nbsp;[29]:
+</div>
+<div class="input_area box-flex1">
+<div class="highlight"><pre><span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;berlin&quot;</span><span class="p">,</span> <span class="s">&quot;deutschland&quot;</span><span class="p">,</span> <span class="s">&quot;london&quot;</span><span class="p">,</span> <span class="s">&quot;england&quot;</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">positive</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="mi">3</span><span class="p">]],</span><span class="n">negative</span><span class="o">=</span><span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+
+</div>
+</div>
+
+<div class="vbox output_wrapper">
+<div class="output vbox">
+
+
+<div class="hbox output_area"><div class="prompt output_prompt">
+    Out[29]:</div>
+<div class="box-flex1 output_subarea output_pyout">
+
+
+<pre>
+[(&apos;dorset&apos;, 0.55140525),
+ (&apos;london&apos;, 0.54855478),
+ (&apos;sussex&apos;, 0.54572964),
+ (&apos;cornwall&apos;, 0.54447097),
+ (&apos;suffolk&apos;, 0.54392934),
+ (&apos;essex&apos;, 0.53380001),
+ (&apos;oxfordshire&apos;, 0.51856804),
+ (&apos;warwickshire&apos;, 0.51826203),
+ (&apos;edinburgh&apos;, 0.51790893),
+ (&apos;surrey&apos;, 0.51409358)]
+</pre>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So, the top answer is <em>'dorset'</em> which is a county of England way
+in the south. But the second one is actually London. So, not bad. As I
+mentioned above, this model was trained basically with default parameters and
+with not necessarily a big dataset (as the one in the paper) Therefore, the embeddings might not be as accurate as desired or capture all the information that we would like.</p>
+</div>
+
+
+<p>
+Well, this was just basic test with a basic model. I will continue trying
+different parameters and of course understanding the model and implementation
+a bit more. There also interesting question to be answered, like for example
+how to represent long documents using word vectors or matching phrases properly
+However I see a lot of potential for applications in NLP ranging from
+basic document classification to more complex <a href="http://en.wikipedia.org/wiki/Named-entity_recognition">named-entity recognition</a>.
+</p>

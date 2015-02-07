@@ -1,0 +1,642 @@
+---
+title: Moving to Berlin with the help of IPython and friends
+category: data_science
+date: 2015-01-17
+layout: post
+author: Miguel Cabrera
+published: true
+tags: maps,data,geo_location, data_science, python
+---
+
+<div class="img-center">
+<img style="width:100%;" src="/files/images/berlin-skyline.jpg"  class="img-polaroid"  alt="Berlin Skyline" />
+</div>
+
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="tldr">TL;DR</h2>
+<p>I help my girlfriend look for a flat using (I)Python and friends. I plot in a map apartments that match her criteria along with the time it takes to reach her workplace using public transportaton. I showcase some Python libraries like Pandas and Scrappy along with some features of IPython notebook to work with Google Maps API. Code and notebooks available on  <a href="https://github.com/mfcabrera/ichbineinberliner">Github</a>.</p>
+<h2 id="intro">Intro</h2>
+<p>Moving to a new city is not an easy task. Among all the things, one of the most time consuming is finding a place to live. It is not easy, there are many variables to take into account and if you don't use an agency looking for one might be boring and repetitive.</p>
+<p>Assuming you use the web to get some possible apartments, once you find a good candidate, you generally have to check the address, check the surroundings (e.g. Stores, Cafes) and which public transportation is available. You generally also have to check how long it will take you to get to your working place or the city center, either by car or public transportation. This is important, as <a href="file:///Users/miguel/Downloads/iewwp151.pdf">Stutzer and Frey found</a> <em>&quot;that a person with a one-hour commute has to earn 515 Euro more (or 40% of an average monthly wage in Germany) to compensate for the dissatisfaction caused by their long commute&quot;</em> <a href="http://www.elezea.com/2013/11/money-satisfaction/">[source]</a>.</p>
+<p>If you use Google or specialized websites like <a href="http://www.immobilienscout24.de/">ImmobilienScout24</a> (in Germany), you probably have to go through process of searching for it, checking wheter that apartment matches your criteria (i.e. number of rooms, size, rent price, etc). In addition to that, you have to check how far or how much time will you need to get to work.</p>
+<p>There is actually a nice tool written by a Berliner that can help you with the last part called <a href="http://www.mapnificent.net/">Mapficient</a>. Mapficient can show you graphically areas you can reach with public transport in a given time and it is available for many cities. However, in order to use the tool you have to add the latitud and longitude coordinates manually for each of the candidate apartments.</p>
+<p>That is the problem that my girlfriend is facing. She is moving to Berlin next month and she wants an apartment that matches her criteria and from where she could reach her working place in the shortest possible amount of time. So I decided to help her (us?) a bit with some assistance of Python/IPython and some services.</p>
+<p>Since I read <a href="http://funnybretzel.svbtle.com/datamining-a-flat-in-munich">Karim's</a> blog post and attended his <a href="https://speakerdeck.com/munichdata/karim-jedda-datamining-a-flat-in-munich">presentation</a> at the <a href="http://munich-datageeks.de/">Munich Datageeks</a> Meetup, I got interested in how to harness open data to automate or improve otherwise boring and time-consuming tasks.</p>
+<p>I also googled a little bit before coding and stumpled upon a nice <a href="https://robinclarke.net/archives/displaying-transit-times-on-a-map-munichmvv">article</a> by <a href="https://robinclarke.net/">Robin Clarke</a>, a guy living in Munich, and how he looked for an area in the city where he could reach the center of Munich in a specific time. He even built a super duper visualization that you can see below:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[49]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="n">HTML</span><span class="p">(</span><span class="s">&#39;&lt;iframe src=&quot;https://www.google.com/fusiontables/embedviz?viz=MAP&amp;q=select+col1+from+2304677+&amp;h=false </span><span class="se">\</span>
+<span class="s">     &amp;lat=48.19187395469069&amp;lng=11.499547000000007&amp;z=10&amp;t=1&amp;l=col1&quot; width=800 height=400&gt;&lt;/iframe&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[49]:</div>
+
+<div class="output_html rendered_html output_subarea output_pyout">
+<iframe src="https://www.google.com/fusiontables/embedviz?viz=MAP&q=select+col1+from+2304677+&h=false      &lat=48.19187395469069&lng=11.499547000000007&z=10&t=1&l=col1" width=800 height=400></iframe>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The lighter the area the less time you need from that location to reach the Munich's city center. In theory you could calculate something similar from any point to another arbitrary point in a city (and that's what Mapficient does), but I did not want to do anything that complex as I like more <a href="http://www.slideshare.net/benediktkoehler/street-fighting-data-science-20991116?next_slideshow=1">Street Fighting Data Science</a>.</p>
+<p>However this gave me an Idea: <em> Why don't I plot in a Google Map only the apartments that have the characteristics I want (she wants) along with the time it takes to get to my girlfriend's workplace?</em> I don't know the Google Map API nor Javascript but it can't be that hard.</p>
+<h2 id="getting-the-data">Getting the Data</h2>
+<p>Here comes Web Scraping handy. Althought I had never used it, I knew there was a popular framework for Python called <a href="http://scrapy.org/">Scrapy</a>. This was a nice opportunity to learn a bit about it. I wrote a small python project that scraps ImmoScout24 listings and stores the results in a JSON file. Before doing that, it uses Google Map services to geocode the address and calculate the distance to my girlfriend's workplace using public transportation. To do that, I use what Scrapy calls an <a href="http://doc.scrapy.org/en/0.24/topics/item-pipeline.html">ItemPipeline</a> and Google Maps services <a href="https://github.com/googlemaps/google-maps-services-python">client</a>. I only limited it to Kreuzberg, Schoenegerberg and Charlottenburg as they still close to the city center but are still in the direction of her workplace.</p>
+<p>The class that actually does the magic looks like this (You can find the full code along with this notebook on <a href="https://github.com/mfcabrera/ichbineinberliner">Github</a>. )</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[16]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">AddDistanceToMPIPipeline</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">latlong_mpi</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="mf">52.444311</span><span class="p">,</span> <span class="mf">13.273748</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gm_client</span> <span class="o">=</span> <span class="n">googlemaps</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s">&quot;_PUT_API_KEY_HERE&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">process_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">spider</span><span class="p">):</span>
+        <span class="n">orig</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">&quot;addr&quot;</span><span class="p">]</span>
+        <span class="n">geoloc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gm_client</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">geoloc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="s">&#39;lng&#39;</span><span class="p">):</span>
+                <span class="n">item</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">geoloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;geometry&#39;</span><span class="p">][</span><span class="s">&#39;location&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="n">directions_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gm_client</span><span class="o">.</span><span class="n">directions</span><span class="p">(</span><span class="nb">str</span><span class="p">((</span><span class="n">item</span><span class="p">[</span><span class="s">&#39;lat&#39;</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;lng&#39;</span><span class="p">])),</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">latlong_mpi</span><span class="p">,</span>
+                                                      <span class="n">mode</span><span class="o">=</span><span class="s">&quot;transit&quot;</span><span class="p">,</span>
+                                                      <span class="n">departure_time</span><span class="o">=</span><span class="mi">1421307820</span><span class="p">)</span>
+
+        <span class="c">#  Pick the fastest way</span>
+        <span class="n">chosen_leg</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">directions_result</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dr</span> <span class="ow">in</span> <span class="n">directions_result</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">[</span><span class="s">&quot;legs&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">chosen_leg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">chosen_leg</span> <span class="o">=</span> <span class="n">l</span>
+                    <span class="k">if</span> <span class="n">chosen_leg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> \
+                       <span class="n">chosen_leg</span><span class="p">[</span><span class="s">&quot;duration&quot;</span><span class="p">][</span><span class="s">&quot;value&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">[</span><span class="s">&quot;duration&quot;</span><span class="p">][</span><span class="s">&quot;value&quot;</span><span class="p">]:</span>
+                        <span class="n">chosen_leg</span> <span class="o">=</span> <span class="n">l</span>
+
+        <span class="k">if</span> <span class="n">chosen_leg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">item</span><span class="p">[</span><span class="s">&quot;time_to&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chosen_leg</span><span class="p">[</span><span class="s">&quot;duration&quot;</span><span class="p">][</span><span class="s">&quot;value&quot;</span><span class="p">]</span><span class="o">/</span><span class="mf">60.0</span>
+        <span class="k">return</span> <span class="n">item</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="taking-a-look-at-the-data">Taking a look at the data</h2>
+<p>So after scraping the website for a while we have a file with all apartments available. We can use Pandas to load the data and take a look at it:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[33]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;../ichbineinberliner/items.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span>  <span class="n">pandas</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pandas also can do some <em>SQL</em> like filtering of the data. So let's assume my girlfriend wants an 3-room apartment (in Germany the living room is counted as one <em>Zimmer</em> (room)). She also wants to be able to get to her job in less than 40 minutes and the monthly rent should be less than 800 euros.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[52]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">apartments</span> <span class="o">=</span>  <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">zimmer</span> <span class="o">==</span> <span class="mi">3</span><span class="p">][</span><span class="n">data</span><span class="o">.</span><span class="n">miete</span> <span class="o">&lt;=</span> <span class="mi">800</span><span class="p">][</span><span class="n">data</span><span class="o">.</span><span class="n">time_to</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s">&#39;time_to&#39;</span><span class="p">)</span>
+<span class="n">apartments</span><span class="p">[[</span><span class="s">&#39;addr&#39;</span><span class="p">,</span> <span class="s">&#39;link&#39;</span><span class="p">,</span> <span class="s">&#39;sqm&#39;</span><span class="p">,</span> <span class="s">&#39;time_to&#39;</span><span class="p">,</span> <span class="s">&#39;zimmer&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[52]:</div>
+
+<div class="output_html rendered_html output_subarea output_pyout">
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>addr</th>
+      <th>link</th>
+      <th>sqm</th>
+      <th>time_to</th>
+      <th>zimmer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>541</th>
+      <td>             Schöneberg (Schöneberg), 12157 Berlin</td>
+      <td> http://www.immobilienscout24.de/expose/78832352</td>
+      <td> 98.74</td>
+      <td> 26.716667</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>524</th>
+      <td> Dominicusstraße 40, Schöneberg (Schöneberg), 1...</td>
+      <td> http://www.immobilienscout24.de/expose/78752552</td>
+      <td> 86.37</td>
+      <td> 28.916667</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>581</th>
+      <td> Sybelstraße 17, Charlottenburg (Charlottenburg...</td>
+      <td> http://www.immobilienscout24.de/expose/78081827</td>
+      <td> 72.25</td>
+      <td> 29.533333</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>582</th>
+      <td> Ebersstrasse 15, Schöneberg (Schöneberg), 1082...</td>
+      <td> http://www.immobilienscout24.de/expose/78826435</td>
+      <td> 76.00</td>
+      <td> 29.900000</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>301</th>
+      <td>     Charlottenburg (Charlottenburg), 10629 Berlin</td>
+      <td> http://www.immobilienscout24.de/expose/76914555</td>
+      <td> 79.00</td>
+      <td> 31.233333</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>511</th>
+      <td>     Charlottenburg (Charlottenburg), 10625 Berlin</td>
+      <td> http://www.immobilienscout24.de/expose/77718892</td>
+      <td> 62.00</td>
+      <td> 33.750000</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>489</th>
+      <td> Dernburgstr. 43, Charlottenburg (Charlottenbur...</td>
+      <td> http://www.immobilienscout24.de/expose/77665277</td>
+      <td> 70.00</td>
+      <td> 34.900000</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>636</th>
+      <td> Sachsendamm 78, Schöneberg (Schöneberg), 10829...</td>
+      <td> http://www.immobilienscout24.de/expose/78941951</td>
+      <td> 73.34</td>
+      <td> 35.516667</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>20 </th>
+      <td> Otto-Suhr-Allee , Charlottenburg (Charlottenbu...</td>
+      <td> http://www.immobilienscout24.de/expose/56455442</td>
+      <td> 69.00</td>
+      <td> 35.750000</td>
+      <td> 3</td>
+    </tr>
+    <tr>
+      <th>15 </th>
+      <td> Olbersstr. 2, Charlottenburg (Charlottenburg),...</td>
+      <td> http://www.immobilienscout24.de/expose/59454790</td>
+      <td> 60.00</td>
+      <td> 36.233333</td>
+      <td> 3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="visualizing-the-data">Visualizing the Data</h2>
+<p>So now we have some apartments that match our criteria. At this point I could send me the table above via email, and make the crawling run each day so I get notified of new available apartments. But I really wanted to visualize it in a better way.</p>
+<p>I discovered that IPython notebook can embed and execute Javascript and HTML, thus embedding a Google Map in a cell is possible. The <a href="http://nbviewer.ipython.org/github/rdhyee/working-open-data-2014/blob/master/notebooks/Day_07_C_Google_Map_API.ipynb">notebooks</a> from the class <a href="https://github.com/rdhyee/working-open-data-2014/tree/master/"><em>Working with Open Data</em></a> of the UC Berkely helped me to get started. Doing this is not that simple (a better support should be possible) but it is not hard either.</p>
+<p>The first thing is to initialize the Google Maps API:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[35]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Javascript</span>
+<span class="k">def</span> <span class="nf">gmap_init</span><span class="p">():</span>
+    <span class="n">js</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">window.gmap_initialize = function() {};</span>
+<span class="s">$.getScript(&#39;https://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;callback=gmap_initialize&#39;);</span>
+<span class="s">&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Javascript</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">js</span><span class="p">)</span>
+<span class="n">gmap_init</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[35]:</div>
+
+
+<div class="output_subarea output_javascript output_pyout">
+<script type="text/javascript">
+
+window.gmap_initialize = function() {};
+$.getScript('https://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=gmap_initialize');
+
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Then we declare the properties of the <em>div</em> where we are going to displaye the map:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[36]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">%%</span><span class="k">html</span>
+<span class="o">&lt;</span><span class="n">style</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span><span class="o">&gt;</span>
+  <span class="o">.</span><span class="n">map</span><span class="o">-</span><span class="n">canvas</span> <span class="p">{</span> <span class="n">height</span><span class="p">:</span> <span class="mi">400</span><span class="n">px</span><span class="p">;</span> <span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<style type="text/css">
+  .map-canvas { height: 400px; }
+</style
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="rendering-the-map">Rendering the Map</h2>
+<p>Now comes the part were we generate the map. What we are going to do is to generate the Javascript code that renders the map. Then we can either display it in a cell using the IPython notebook HTML object or just store in a html file and upload it somewhere.</p>
+<p>I created the small function below that generates the image (check the code comments for more info):</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[37]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">Javascript</span>
+
+<span class="k">def</span> <span class="nf">map_pos_apartments</span><span class="p">(</span><span class="n">apartments</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="mf">52.4798023</span><span class="p">,</span> <span class="n">lng</span><span class="o">=</span><span class="mf">13.3563576</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
+
+    <span class="n">div_id</span> <span class="o">=</span> <span class="s">&quot;miete&quot;</span> <span class="c"># name of the div where are we are going to display the map.</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&lt;div id=&quot;</span><span class="si">%s</span><span class="s">&quot; class=&quot;map-canvas&quot;/&gt;&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">div_id</span><span class="p">)</span>
+
+
+    <span class="c"># This is a template for the infobox that we are going to present to the user when he clicks a </span>
+    <span class="c"># Marker</span>
+    <span class="n">content_template</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;&#39;&lt;ul style=&quot;list-style: none;padding:0; margin:0;&quot;&gt;&#39; + </span>
+<span class="s">    &#39;&lt;li&gt; &lt;a href=&quot;{link}&quot; target=&quot;_blank&quot;&gt; {addr} &lt;/a&gt;&lt;/li&gt;&#39; +</span>
+<span class="s">    &#39;&lt;li&gt;&lt;b&gt;Time to MPI&lt;/b&gt;: {time_to:.2f} min&lt;/b&gt; &lt;/li&gt;&lt;b&gt;Size:&lt;/b&gt; {sqm} m&lt;sup&gt;2&lt;/sup&gt;&lt;li&gt;&lt;/li&gt;&#39; +</span>
+<span class="s">    &#39;&lt;li&gt;&lt;b&gt;Rent:&lt;/b&gt; &amp;#8364; {miete}&lt;/li&gt;&lt;/ul&gt; &#39;</span>
+<span class="s">    </span>
+<span class="s">    &quot;&quot;&quot;</span>
+    <span class="c"># This is the template for a Marker on the map.  It also contains the code for generating the &quot;Infowindow&quot;</span>
+    <span class="c"># That appears when clicked. </span>
+    <span class="n">marker_template</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        var myLatlng = new google.maps.LatLng({lat},{lng});</span>
+<span class="s">        var marker_{i} = new google.maps.Marker({% raw  %}{{ {% endraw %}
+</span>
+<span class="s">        position: myLatlng,</span>
+<span class="s">        map: map,</span>
+<span class="s">        title:&quot;{title}&quot;</span>
+<span class="s">        }});</span>
+<span class="s">    </span>
+<span class="s">         var contentString = {content};</span>
+
+<span class="s">          var infowindow_{i} = new google.maps.InfoWindow({% raw  %}{{ {% endraw %}
+</span>
+<span class="s">          content: contentString</span>
+<span class="s">          }});</span>
+<span class="s">    </span>
+<span class="s">          google.maps.event.addListener(marker_{i}, &#39;click&#39;, function() {% raw  %}{{ {% endraw %}
+</span>
+<span class="s">            infowindow_{i}.open(map,marker_{i});</span>
+<span class="s">            if (lastWindow) {% raw  %}{{ {% endraw %}
+</span>
+<span class="s">                lastWindow.close();</span>
+<span class="s">            }}</span>
+<span class="s">            lastWindow = infowindow_{i}</span>
+<span class="s">      }});</span>
+<span class="s">    </span>
+<span class="s">    &quot;&quot;&quot;</span>
+    <span class="c">## JS intitalization code.</span>
+    <span class="n">js_init</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    &lt;script type=&quot;text/Javascript&quot;&gt;</span>
+<span class="s">      (function(){</span>
+<span class="s">        var mapOptions = {</span>
+<span class="s">            zoom: </span><span class="si">%s</span><span class="s">,</span>
+<span class="s">            center: new google.maps.LatLng(</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)</span>
+<span class="s">          };</span>
+
+<span class="s">        var map = new google.maps.Map(document.getElementById(&#39;</span><span class="si">%s</span><span class="s">&#39;),</span>
+<span class="s">              mapOptions);</span>
+<span class="s">              </span>
+<span class="s">        var lastWindow = false;</span>
+<span class="s">        </span>
+<span class="s">        var transitLayer = new google.maps.TransitLayer();</span>
+<span class="s">        transitLayer.setMap(map);</span>
+<span class="s">              </span>
+<span class="s">              &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">zoom</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">,</span> <span class="n">div_id</span><span class="p">)</span>
+
+    <span class="c"># closing script</span>
+    <span class="n">js_end</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">      })();  </span>
+<span class="s">    &lt;/script&gt;</span>
+<span class="s">    </span>
+<span class="s">    &quot;&quot;&quot;</span>
+
+    <span class="c"># Not the actual part that generates the Markers based on the code from </span>
+    <span class="c"># the data crawled.</span>
+
+    <span class="n">js_markers</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">apartments</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">addr</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">content_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">link</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="n">addr</span><span class="p">,</span>
+                                           <span class="n">time_to</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">time_to</span><span class="p">,</span> <span class="n">miete</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">miete</span><span class="p">,</span>
+                                           <span class="n">sqm</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">sqm</span><span class="p">)</span>
+        <span class="n">js_markers</span> <span class="o">+=</span>  <span class="n">marker_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">lng</span><span class="p">,</span>
+                                              <span class="n">title</span><span class="o">=</span><span class="n">addr</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+
+    <span class="n">html</span> <span class="o">=</span> <span class="n">html</span><span class="o">+</span><span class="n">js_init</span><span class="o">+</span><span class="n">js_markers</span><span class="o">+</span><span class="n">js_end</span>
+    <span class="k">if</span> <span class="n">display</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can call this function and see the map:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">map_pos_apartments</span><span class="p">(</span><span class="n">apartments</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The only issue is that this code is executed on the fly, so in order to visualize this the code would have to store it first or load it automatically somehow. As a replacement I am attaching an IFrame showing the results of the code above.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[47]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">HTML</span><span class="p">(</span><span class="s">&#39;&lt;iframe src=&quot;http://mfcabrera.com/files/ichbineinberliner/&quot; width=800 height=400&gt;&lt;/iframe&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[47]:</div>
+
+<div class="output_html rendered_html output_subarea output_pyout">
+<iframe src="http://mfcabrera.com/files/ichbineinberliner/" width=800 height=400></iframe>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have a nice responsive and interactive map with the apartments matching our criteria. If we click a marker we get more information about each available apartment.</p>
+<p>AS the <code>HTML</code> constructor only takes HTML/JS text source code, we could also store it in a file, so we can embedd it somewhere else.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[54]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">html_src</span> <span class="o">=</span> <span class="n">map_pos_apartments</span><span class="p">(</span><span class="n">apartments</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">init_script</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; &lt;script type=&quot;text/javascript&quot;</span>
+<span class="s">      src=&quot;https://maps.googleapis.com/maps/api/js?key=AIzaSyD1tR9ag8ImBLr4BJdr-ZMTP0bFOXPJFUk&quot;&gt;</span>
+<span class="s">    &lt;/script&gt;&quot;&quot;&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;index.html&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;&lt;html&gt;&lt;head&gt; &quot;</span> <span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">init_script</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;style type=&quot;text/css&quot;&gt; </span><span class="se">\</span>
+<span class="s">            .map-canvas { height: 800px; } </span><span class="se">\</span>
+<span class="s">            &lt;/style&gt;&#39;</span><span class="p">)</span>
+
+
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script type=&quot;text/javascript&quot;&gt;&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;google.maps.event.addDomListener(window, &#39;load&#39;, initialize);&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;&lt;/script&gt;&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s"> {} &lt;/head&gt;&lt;body&gt;&lt;div id=&#39;miete&#39; class=&#39;map-canvas&#39;/&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">html_src</span> <span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[55]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="o">!</span>open index.html
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="conclusion">Conclusion</h2>
+<p>We managed to build a nice visualization of candidate apparments that is definetly helpful for moving to a new city. This definetly does not get her an apartment automatically. However, linking the apartment listing with transit information narrows down the search a lot and automates some of the most boring tasks.</p>
+<p>This small project even made me take a look into the <a href="http://en.wikipedia.org/wiki/Open_data">Open Data</a> and the <a href="http://okfn.de/opendata/">Open Knowledge movement</a>and their standing in Germany.</p>
+<p>I am also glady surprised by the capabilites of IPython Notebooks and this made me realize that I finally need to learn to code properly in Javascript.</p>
+</div>
+</div>
+</div>

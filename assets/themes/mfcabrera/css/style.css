@@ -1,9 +1,27 @@
 /* Override some defaults */
+
+
+
 html, body {
   background-color: #eee;
   font-family: 'Open Sans',sans-serif 
 
 }
+
+
+body {
+/*  margin: 0;*/
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #313131;
+ /* background-color: #ffffff;*/
+ /*  width: 100%;
+  min-height: 100%;*/
+  -webkit-font-smoothing: antialiased;
+}
+
+
 .navbar {
   margin-bottom: 0;
 }
@@ -77,17 +95,25 @@ html, body {
 
 /* custom css for me */
 
-h1,h2 {
+h1,h2,h3 {
+    margin-top: 27px;
     color: #FF4E00;
+    margin-bottom: 13.5px;
 
 }
 
-h3,h4,h5 {
+h4,h5 {
     color: #555;
 }
 
+h2 {
+    font-size: 27px;
+}
+
+   
+
 .img-right, .img-center, .img-left {
-    margin: 1em;
+    margin: 2em;
     text-align: center;
 
 }
@@ -139,7 +165,7 @@ margin: 0 -20px; /* negative indent the amount of the padding to maintain the gr
 }
 
 hr {
-    margin-top:  10px;
+    margin-top:  20px;
     margin-bottom:  10px;
 }
 
@@ -153,7 +179,23 @@ hr {
     margin-left: 20px;
 }
 
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: 'museo-slab', 'museo slab', Georgia, 'Times New Roman', Times, serif;
+  font-weight: 500;
+  line-height: 1.1;
+  /* color: inherit;*/
+}
 
 
 

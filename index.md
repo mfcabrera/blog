@@ -13,18 +13,24 @@ description: Miguel Fernando Cabrera Weblog
 
 <div class="span7"  id="personal" >
 <ul>
-   
-  <li>Currently a <span itemprop="jobTitle">graduate student (M.Sc.) in Informatics</span>
-  at the  <span itemprop="affiliation"><a href="http://www.tum.de"
+
+  <li>I work as a Data Engineer/Scientist doing  Machine Learning related
+  stuff for <a
+  href="http://www.trustyou.com" itemprop="affiliation" target="_blank">TrustYou</a>.</li>
+  
+  <li>I recently obtained a <span itemprop="jobTitle"> M.Sc. in Informatics</span>
+  from the <span itemprop="affiliation"><a href="http://www.tum.de"
   target="_blank"> Technical Univeristy Munich</a></span>.</li>
-  <li> I am about to obtain a Honours degree in Technology Management from the <a
+  <li> I also obtained an Honours degree in Technology Management from the <a
   href="http://www.cdtm.de" target="_blank">Center for Digital Technology Management</a>.</li>
-  <li>I work part-time as a Machine Learning Developer for <a
-  href="http://www.smarchive.de" target="_blank">Smarchive</a>.</li>
   <li>From time to time I <a href="http://github.com/mfcabrera">code</a>,
-  mostly in Ruby and Python.</li>
+  mostly in  Python.</li>
   <li>I am trying to learn how to play accordion and sometimes I
-    make <a href="http://soundcloud.com/mohan-collective" target="_blank">music</a>.</li>
+    make <a href="http://soundcloud.com/mohan-collective"
+  target="_blank">music</a>.</li>
+  <li>I organize the <a href="http://www.meetup.com/Munich-Datageeks/"
+  target="_blank">Munich DataGeeks</a> Meetup.</li>
+  
 </ul>
 </div>
 

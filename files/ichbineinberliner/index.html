@@ -1,0 +1,376 @@
+<html><head>  <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1tR9ag8ImBLr4BJdr-ZMTP0bFOXPJFUk">
+    </script><style type="text/css">             .map-canvas { height: 800px; }             </style><script type="text/javascript">google.maps.event.addDomListener(window, 'load', initialize);</script>
+
+ <div id="miete" class="map-canvas"/>
+    <script type="text/Javascript">
+      (function(){
+        var mapOptions = {
+            zoom: 12,
+            center: new google.maps.LatLng(52.4798023, 13.3563576)
+          };
+
+        var map = new google.maps.Map(document.getElementById('miete'),
+              mapOptions);
+              
+        var lastWindow = false;
+        
+        var transitLayer = new google.maps.TransitLayer();
+        transitLayer.setMap(map);
+              
+              
+        var myLatlng = new google.maps.LatLng(52.4810485,13.3494707);
+        var marker_0 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Dominicusstraße 40, Schöneberg (Schöneberg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78752552" target="_blank"> Dominicusstraße 40, Schöneberg (Schöneberg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 28.92 min</b> </li><b>Size:</b> 88.0 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 748.0</li></ul> '
+    
+    ;
+
+          var infowindow_0 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_0, 'click', function() {
+            infowindow_0.open(map,marker_0);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_0
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.482256,13.354914);
+        var marker_1 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Ebersstrasse 15, Schöneberg (Schöneberg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78826435" target="_blank"> Ebersstrasse 15, Schöneberg (Schöneberg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 29.90 min</b> </li><b>Size:</b> 76.0 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 600.0</li></ul> '
+    
+    ;
+
+          var infowindow_1 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_1, 'click', function() {
+            infowindow_1.open(map,marker_1);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_1
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.4988393,13.3558);
+        var marker_2 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Bülowstr. 5, Schöneberg (Schöneberg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/79058705" target="_blank"> Bülowstr. 5, Schöneberg (Schöneberg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 31.33 min</b> </li><b>Size:</b> 102.49 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 609.67</li></ul> '
+    
+    ;
+
+          var infowindow_2 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_2, 'click', function() {
+            infowindow_2.open(map,marker_2);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_2
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.5050913,13.3073699);
+        var marker_3 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Wilmersdorfer Str. 107 a, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78973463" target="_blank"> Wilmersdorfer Str. 107 a, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 31.35 min</b> </li><b>Size:</b> 69.0 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 690.0</li></ul> '
+    
+    ;
+
+          var infowindow_3 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_3, 'click', function() {
+            infowindow_3.open(map,marker_3);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_3
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.4619,13.34979);
+        var marker_4 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Riemenschneiderweg 80, Schöneberg (Schöneberg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/79113479" target="_blank"> Riemenschneiderweg 80, Schöneberg (Schöneberg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 32.30 min</b> </li><b>Size:</b> 74.78 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 545.0</li></ul> '
+    
+    ;
+
+          var infowindow_4 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_4, 'click', function() {
+            infowindow_4.open(map,marker_4);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_4
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.4769542,13.3572634);
+        var marker_5 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Sachsendamm 78, Schöneberg (Schöneberg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/79119804" target="_blank"> Sachsendamm 78, Schöneberg (Schöneberg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 35.52 min</b> </li><b>Size:</b> 73.34 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 525.0</li></ul> '
+    
+    ;
+
+          var infowindow_5 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_5, 'click', function() {
+            infowindow_5.open(map,marker_5);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_5
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.50272,13.28618);
+        var marker_6 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Dernburgstr. 25b, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78808892" target="_blank"> Dernburgstr. 25b, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 35.75 min</b> </li><b>Size:</b> 62.15 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 749.0</li></ul> '
+    
+    ;
+
+          var infowindow_6 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_6, 'click', function() {
+            infowindow_6.open(map,marker_6);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_6
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.5054189,13.3178677);
+        var marker_7 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Schlüterstr. 60, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/79077291" target="_blank"> Schlüterstr. 60, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 36.43 min</b> </li><b>Size:</b> 79.7 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 637.6</li></ul> '
+    
+    ;
+
+          var infowindow_7 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_7, 'click', function() {
+            infowindow_7.open(map,marker_7);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_7
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.4977085,13.3612132);
+        var marker_8 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Bülowstr. 24, Schöneberg (Schöneberg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78287442" target="_blank"> Bülowstr. 24, Schöneberg (Schöneberg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 36.67 min</b> </li><b>Size:</b> 113.91 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 699.0</li></ul> '
+    
+    ;
+
+          var infowindow_8 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_8, 'click', function() {
+            infowindow_8.open(map,marker_8);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_8
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.5103086,13.2823624);
+        var marker_9 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Kaiserdamm 25, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78442229" target="_blank"> Kaiserdamm 25, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 37.15 min</b> </li><b>Size:</b> 83.0 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 739.0</li></ul> '
+    
+    ;
+
+          var infowindow_9 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_9, 'click', function() {
+            infowindow_9.open(map,marker_9);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_9
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.51332,13.31762);
+        var marker_10 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Marie-Elisabeth-Lüders-Str. 8, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78727522" target="_blank"> Marie-Elisabeth-Lüders-Str. 8, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 38.37 min</b> </li><b>Size:</b> 93.08 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 609.0</li></ul> '
+    
+    ;
+
+          var infowindow_10 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_10, 'click', function() {
+            infowindow_10.open(map,marker_10);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_10
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.5122976,13.2812233);
+        var marker_11 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Königin-Elisabeth-Str. 21, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/78890942" target="_blank"> Königin-Elisabeth-Str. 21, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 39.83 min</b> </li><b>Size:</b> 74.29 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 543.8</li></ul> '
+    
+    ;
+
+          var infowindow_11 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_11, 'click', function() {
+            infowindow_11.open(map,marker_11);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_11
+      });
+    
+    
+        var myLatlng = new google.maps.LatLng(52.516238,13.3105092);
+        var marker_12 = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title:"Otto-Suhr-Allee, Charlottenburg (Charlottenburg), Berlin"
+        });
+    
+         var contentString = '<ul style="list-style: none;padding:0; margin:0;">' + 
+    '<li> <a href="http:////www.immobilienscout24.de/expose/56455442" target="_blank"> Otto-Suhr-Allee, Charlottenburg (Charlottenburg), Berlin </a></li>' +
+    '<li><b>Time to MPI</b>: 39.97 min</b> </li><b>Size:</b> 69.0 m<sup>2</sup><li></li>' +
+    '<li><b>Rent:</b> &#8364; 630.0</li></ul> '
+    
+    ;
+
+          var infowindow_12 = new google.maps.InfoWindow({
+          content: contentString
+          });
+    
+          google.maps.event.addListener(marker_12, 'click', function() {
+            infowindow_12.open(map,marker_12);
+            if (lastWindow) {
+                lastWindow.close();
+            }
+            lastWindow = infowindow_12
+      });
+    
+    
+      })();  
+    </script>
+    
+     </head><body><div id='miete' class='map-canvas'/></body></html>
