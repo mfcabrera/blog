@@ -7,19 +7,19 @@ author: Miguel Cabrera
 published: true
 ---
 <div class="img-center">
-<img style="width:25%;" src="/files/images/hipster-typewriter.jpg"  class="img-polaroid"  alt="HIPSTER IMAGE" /> 
+<img style="width:25%;" src="/files/images/hipster-typewriter.jpg"  class="img-polaroid"  alt="HIPSTER IMAGE" />
 </div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">TL;DR</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">TL;DR</h2>
+<div class="outline-text-2" id="text-orgheadline1">
 <p>
 I explore a set-up to share notes among all my devices (namely my Laptop,
 tablet and smart-phone) and make them
 available on the cloud, plus how to even work with them from Emacs. I even
 show how I use the same system for blogging. If you
 are a OSX and Emacs use and also happen to have a device from Apple (e.g.
-Macbook Pro or iPhone) read below. 
+Macbook Pro or iPhone) read below.
 </p>
 
 
@@ -49,16 +49,16 @@ to adapt it as they want (isn't org-mode flexibility all about?).
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">TL;DR</a></li>
-<li><a href="#sec-2">Intro</a></li>
-<li><a href="#sec-3">Set-Up</a></li>
-<li><a href="#sec-4">LvL 1: Notes in all devices</a>
+<li><a href="#orgheadline1">TL;DR</a></li>
+<li><a href="#orgheadline2">Intro</a></li>
+<li><a href="#orgheadline3">Set-Up</a></li>
+<li><a href="#orgheadline4">LvL 1: Notes in all devices</a>
 <ul>
-<li><a href="#sec-4-1">Notational Velocity &amp; SimpleNote</a></li>
+<li><a href="#orgheadline5">Notational Velocity &amp; SimpleNote</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">LvL 2: Using Emacs to take notes</a></li>
-<li><a href="#sec-6">LvL 3: Writing a blog from everywhere</a></li>
+<li><a href="#orgheadline6">LvL 2: Using Emacs to take notes</a></li>
+<li><a href="#orgheadline7">LvL 3: Writing a blog from everywhere</a></li>
 </ul>
 </div>
 </div>
@@ -66,9 +66,9 @@ to adapt it as they want (isn't org-mode flexibility all about?).
 </div>
 
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Intro</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Intro</h2>
+<div class="outline-text-2" id="text-orgheadline2">
 <p>
 You can safely skip this part if you want to get the set-up running. Here I
 just want or rant a little bit about my experience in the note taking field.
@@ -78,7 +78,7 @@ just want or rant a little bit about my experience in the note taking field.
 As I mentioned before, I have always been obsessed with personal productivity. In particular to-do
 list and note taking. Back in the days, I used simple text files for storing
 my notes, then I switched to personal wiki solutions like the once popular
-<a href="https://wiki.gnome.org/Apps/Tomboy">Tomboy</a> . Then I switched to integrated solutions like <i><a href="http://orgmode.org/">org-mode</a></i> 
+<a href="https://wiki.gnome.org/Apps/Tomboy">Tomboy</a> . Then I switched to integrated solutions like <i><a href="http://orgmode.org/">org-mode</a></i>
 . I think org-mode is pure  awesomeness  but I just do not like
 as the notes are stored and accessed. The main issues I have found when using
 org-mode are the following:
@@ -86,16 +86,12 @@ org-mode are the following:
 
 <ul class="org-ul">
 <li>In org-mode the usual set-up implies  all the notes are stored in one or
-some files in a tree fashion.
-</li>
-<li>Search in Org-Mode is not as flexible and quick as I would like it to be. 
-</li>
+some files in a tree fashion.</li>
+<li>Search in Org-Mode is not as flexible and quick as I would like it to be.</li>
 <li>Accessing my org files from other devices different of my computer was a
-PITA. and <a href="http://mobileorg.ncogni.to/">MobileOrg</a> did not cover my needs (and was also difficult to Set-up).
-</li>
+PITA. and <a href="http://mobileorg.ncogni.to/">MobileOrg</a> did not cover my needs (and was also difficult to Set-up).</li>
 <li>Furthermore, Integrating org-mode although possible is sometimes too
-difficult or cumbersome.
-</li>
+difficult or cumbersome.</li>
 </ul>
 
 <p>
@@ -103,19 +99,13 @@ However, <a href="http://orgmode.org/">org-mode</a>  has a lot of things that ma
 </p>
 
 <ul class="org-ul">
-<li>Can use the awesome Emacs to take notes.
-</li>
+<li>Can use the awesome Emacs to take notes.</li>
 <li><a href="http://orgmode.org/org.html#Markup">Simple format</a>  for storing information that can be used with or
-without syntax highlight.
-</li>
-<li>The ability to export to many formats including Latex, PDF and HTML.
-</li>
-<li>Syntax for  highlighting when exporting.
-</li>
-<li>Executing of source code via <a href="http://orgmode.org/worg/org-contrib/babel/">Org Babel</a>
-</li>
-<li>And more, <a href="http://en.wikipedia.org/wiki/org-mode#Functionality">much more</a>.
-</li>
+without syntax highlight.</li>
+<li>The ability to export to many formats including Latex, PDF and HTML.</li>
+<li>Syntax for  highlighting when exporting.</li>
+<li>Executing of source code via <a href="http://orgmode.org/worg/org-contrib/babel/">Org Babel</a></li>
+<li>And more, <a href="http://en.wikipedia.org/wiki/org-mode#Functionality">much more</a>.</li>
 </ul>
 
 
@@ -128,9 +118,9 @@ below you will find my solution.
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Set-Up</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Set-Up</h2>
+<div class="outline-text-2" id="text-orgheadline3">
 <p>
 Before starting to describe I want to clarify what hardware I possess. The
 setup might be replicated with a different set of devices  or operating
@@ -138,31 +128,28 @@ system combination. I will try to add the alternatives.
 </p>
 
 <ul class="org-ul">
-<li>Laptop with Mac OSX: Macbook Pro
-</li>
-<li>Cellphone: iPhone (&gt;=4)
-</li>
-<li>Tablet: iPad (&gt;=3)
-</li>
+<li>Laptop with Mac OSX: Macbook Pro</li>
+<li>Cellphone: iPhone (&gt;=4)</li>
+<li>Tablet: iPad (&gt;=3)</li>
 </ul>
 
 <p>
-(Yeah, yeah&#x2026; you can call me Apple fan boy but I'm not!) 
+(Yeah, yeah&#x2026; you can call me Apple fan boy but I'm not!)
 </p>
 </div>
 </div>
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">LvL 1: Notes in all devices</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">LvL 1: Notes in all devices</h2>
+<div class="outline-text-2" id="text-orgheadline4">
 <p>
 In order to achieve this we only need a couple of applications. Notational
 Velocity and SimpleNote.
 </p>
 </div>
 
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">Notational Velocity &amp; SimpleNote</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Notational Velocity &amp; SimpleNote</h3>
+<div class="outline-text-3" id="text-orgheadline5">
 <p>
 <a href="http://notational.net/">Notational Velocity</a> is an  open source light weight text editor with really
 nice functionalities. It features a simple interface with a search bar and a list of notes.
@@ -171,7 +158,7 @@ nice functionalities. It features a simple interface with a search bar and a lis
 <div class="img-center">
 <a href="/files/images/nv-screenshot.png" target='_blank'>
 <img style="width:70%" alt="Notational Velocity" src="/files/images/nv-screenshot.png"
-class="img-polaroid"  /> 
+class="img-polaroid"  />
 </a>
 <p> Notational Velocity </p>
 </div>
@@ -184,11 +171,11 @@ the notes. So if we select a Dropbox folder  we can browse it basically from eve
 
 <p>
 To access the notes in other devices, I use  <a href="http://simplenote.com/">SimpleNote</a> (if you don't know
-this application you should totally check it out).  
+this application you should totally check it out).
 Notational Velocity can sync your notes with SimpleNote. The Web version of
 SimpleNote is free but you have to  pay for this app in order to use it in
 iOS device. It is cheap and totally make easier to share your computer
-notes with you iOS device(s). 
+notes with you iOS device(s).
 </p>
 
 <p>
@@ -197,7 +184,7 @@ Here is actually how SimpleNote looks on the iPad:
 
 <div class="img-center">
 <a href="/files/images/simplenoteipad.jpg" target="_blank">
-<img  style="width:70%;"  src="/files/images/simplenoteipad.jpg"  class="img-polaroid"  /> 
+<img  style="width:70%;"  src="/files/images/simplenoteipad.jpg"  class="img-polaroid"  />
 </a>
 <p> SimpleNote on iPad </p>
 </div>
@@ -207,20 +194,16 @@ So by using Dropbox, Notational Velocity and SimpleNote you can:
 </p>
 
 <ul class="org-ul">
-<li>Take plain text notes using a free cool app.
-</li>
+<li>Take plain text notes using a free cool app.</li>
 <li>Access it everywhere using Dropbox (if you need to, but this is more of a
-emergency).
-</li>
+emergency).</li>
 <li>Take notes online using the Simple note <a href="https://simple-note.appspot.com/">Web interface</a>  or any of
 the clients it has. Notational velocity will sync back to your hard drive
-and Dropbox folder.
-</li>
+and Dropbox folder.</li>
 <li>Sync and take notes using any or your devices iPhone  or Emacs. I guess
 this configuration will also work or Android based devices,  but I have no
 experience with Android based devices. However by this point, the main
-idea should be clear and should not be hard to replicate.
-</li>
+idea should be clear and should not be hard to replicate.</li>
 </ul>
 
 <p>
@@ -231,13 +214,13 @@ level of Geeknes is enough for you).
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">LvL 2: Using Emacs to take notes</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6">LvL 2: Using Emacs to take notes</h2>
+<div class="outline-text-2" id="text-orgheadline6">
 <p>
 OK if you are reading this that means that you are an active user of Emacs
 and that you want to see how you can integrate the previous Workflow with
-it. Well it  is actually quite easy.  
+it. Well it  is actually quite easy.
 </p>
 
 <p>
@@ -248,7 +231,7 @@ similar interface for note taking as Notational Velocity does.
 
 <div class="img-center">
 <a href="http://jblevins.org/projects/deft/browser.png" target="_blank">
-<img   src="http://jblevins.org/projects/deft/browser.png"  class="img-polaroid"  /> 
+<img   src="http://jblevins.org/projects/deft/browser.png"  class="img-polaroid"  />
 </a>
 <p> Deft Mode </p>
 </div>
@@ -260,14 +243,14 @@ Deft configuration is simple (add this to <code>.emacs</code> ):
 
 <div class="org-src-container">
 
-<pre class="src src-elisp">(when (require 'deft nil 'noerror) 
-  (setq
-   deft-extension "txt"
-   deft-directory "~/Dropbox/Notational Data/"
+<pre class="src src-elisp"><span style="color: #DCDCCC;">(</span><span style="color: #F0DFAF; font-weight: bold;">when</span> <span style="color: #BFEBBF;">(</span><span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">deft</span> nil 'noerror<span style="color: #BFEBBF;">)</span><span style="background-color: #CC9393;"> </span>
+  <span style="color: #BFEBBF;">(</span>setq
+   deft-extension <span style="color: #CC9393;">"txt"</span>
+   deft-directory <span style="color: #CC9393;">"~/Dropbox/Notational Data/"</span>
    deft-text-mode 'org-mode
    deft-use-filename-as-title t
-   )
-  (global-set-key (kbd "&lt;C-f9&gt;") 'deft))
+   <span style="color: #BFEBBF;">)</span>
+  <span style="color: #BFEBBF;">(</span>global-set-key <span style="color: #D0BF8F;">(</span>kbd <span style="color: #CC9393;">"&lt;C-f9&gt;"</span><span style="color: #D0BF8F;">)</span> 'deft<span style="color: #BFEBBF;">)</span><span style="color: #DCDCCC;">)</span>
 </pre>
 </div>
 
@@ -275,15 +258,15 @@ Deft configuration is simple (add this to <code>.emacs</code> ):
 This should be self-explanatory, but the important things are the
 <code>:deft-directory</code> option, which I select the same directory on my Dropbox
 folde. The <code>:deft-text-mode</code> option allows me to chose a default mode for my
-note files. 
+note files.
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">LvL 3: Writing a blog from everywhere</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7">LvL 3: Writing a blog from everywhere</h2>
+<div class="outline-text-2" id="text-orgheadline7">
 <p>
 So far we have the ability of writing and reading or text or org based mode
 from everywhere. This can be used to write draft of posts for your blog  from basically everywhere.
@@ -291,46 +274,46 @@ In my personal case I use <a href="http:https://github.com/jekyll/jekyll">Jekyll
 support markup formats like Markdown or Textile, but you can use raw HTML as
 well. This last feature allows me  to write  my posts using org-mode format
 and export them to HTML. This can be easily automated by defining a
-project. 
+project.
 </p>
 
 
 <div class="org-src-container">
 
-<pre class="src src-elisp">(setq org-publish-project-alist
-   '(
+<pre class="src src-elisp"><span style="color: #DCDCCC;">(</span>setq org-publish-project-alist
+   '<span style="color: #BFEBBF;">(</span>
 
-     ("mf" :components ("mf-org"
-                         "mf-img"))
+     <span style="color: #D0BF8F;">(</span><span style="color: #CC9393;">"mf"</span> <span style="color: #DCDCCC; font-weight: bold;">:components</span> <span style="color: #93E0E3;">(</span><span style="color: #CC9393;">"mf-org"</span>
+                         <span style="color: #CC9393;">"mf-img"</span><span style="color: #93E0E3;">)</span><span style="color: #D0BF8F;">)</span>
 
-      ("mf-org"
-               :base-directory "/Users/miguel/Dropbox/Notational Data"
-               :recursive t 
-               :base-extension "blog.org.txt"
-               :publishing-directory "/Users/miguel/Dropbox/blog-stuff/mfcabrera.com/_posts"
-               :site-root "http://mfcabrera.com"
-               :jekyll-sanitize-permalinks t
-               :publishing-function org-html-publish-to-html
-               :section-numbers nil
-               :headline-levels 4
-               :table-of-contents nil
-               :auto-index nil
-               :auto-preamble nil
-               :body-only t
-               :auto-postamble nil)
+      <span style="color: #D0BF8F;">(</span><span style="color: #CC9393;">"mf-org"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:base-directory</span> <span style="color: #CC9393;">"/Users/miguel/Dropbox/Notational Data"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:recursive</span> t<span style="background-color: #CC9393;"> </span>
+               <span style="color: #DCDCCC; font-weight: bold;">:base-extension</span> <span style="color: #CC9393;">"blog.org.txt"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:publishing-directory</span> <span style="color: #CC9393;">"/Users/miguel/Dropbox/blog-stuff/mfcabrera.com/_posts"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:site-root</span> <span style="color: #CC9393;">"http://mfcabrera.com"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:jekyll-sanitize-permalinks</span> t
+               <span style="color: #DCDCCC; font-weight: bold;">:publishing-function</span> org-html-publish-to-html
+               <span style="color: #DCDCCC; font-weight: bold;">:section-numbers</span> nil
+               <span style="color: #DCDCCC; font-weight: bold;">:headline-levels</span> 4
+               <span style="color: #DCDCCC; font-weight: bold;">:table-of-contents</span> nil
+               <span style="color: #DCDCCC; font-weight: bold;">:auto-index</span> nil
+               <span style="color: #DCDCCC; font-weight: bold;">:auto-preamble</span> nil
+               <span style="color: #DCDCCC; font-weight: bold;">:body-only</span> t
+               <span style="color: #DCDCCC; font-weight: bold;">:auto-postamble</span> nil<span style="color: #D0BF8F;">)</span>
 
-      ("mf-img"
-               :base-directory "/Users/miguel/Dropbox/blog-stuff/source/"
-               :recursive t
-               :exclude "^publish"
-               :base-extension "jpg\\|gif\\|png|jpeg"
-               :publishing-directory "/Users/miguel/Dropbox/blog-stuff/mfcabrera.com/files/images"
+      <span style="color: #D0BF8F;">(</span><span style="color: #CC9393;">"mf-img"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:base-directory</span> <span style="color: #CC9393;">"/Users/miguel/Dropbox/blog-stuff/source/"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:recursive</span> t
+               <span style="color: #DCDCCC; font-weight: bold;">:exclude</span> <span style="color: #CC9393;">"^publish"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:base-extension</span> <span style="color: #CC9393;">"jpg</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">|</span><span style="color: #CC9393;">gif</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">|</span><span style="color: #CC9393;">png|jpeg"</span>
+               <span style="color: #DCDCCC; font-weight: bold;">:publishing-directory</span> <span style="color: #CC9393;">"/Users/miguel/Dropbox/blog-stuff/mfcabrera.com/files/images"</span>
 
-               :publishing-function org-publish-attachment)
+               <span style="color: #DCDCCC; font-weight: bold;">:publishing-function</span> org-publish-attachment<span style="color: #D0BF8F;">)</span>
 
 
 
-))
+<span style="color: #BFEBBF;">)</span><span style="color: #DCDCCC;">)</span>
 </pre>
 </div>
 
@@ -341,7 +324,7 @@ only take into account files ending in <code>.blog.org.txt</code> (So I don't pu
 all my notes).  With <code>:body-only</code> I
 tell org to export only the body of the HTML.  <code>mf-img</code> takes images from
 a directory and copies to <code>/files/images/ directory</code> using the function
-<code>:org-publish-attachment</code>. 
+<code>:org-publish-attachment</code>.
 </p>
 
 <p>
@@ -353,7 +336,7 @@ finished my M.Sc. degrees :).
 </p>
 
 <p>
-Comments? ideas? improvements? Comment or write me an e-mail. 
+Comments? ideas? improvements? Comment or write me an e-mail.
 </p>
 </div>
 </div>

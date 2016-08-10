@@ -1,0 +1,157 @@
+---
+title: Linklog - Week 11
+category: geeky
+date: 2015-03-13
+layout: post
+author: Miguel Cabrera
+published: True
+---
+
+
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Machine Learning / Data Science Links</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+A couple of links of interesing NLP related class from Standford NLP group (These are not MOOC, but some materials - maybe videos - are going to be posted online)
+</p>
+<ul class="org-ul">
+<li><a href="http://cs224d.stanford.edu/">CS224d: Deep Learning for Natural Language Processing</a></li>
+<li><a href="http://vision.stanford.edu/teaching/cs231n/">CS231n: Convolutional Neural Networks for Visual Recognition</a></li>
+</ul>
+
+<p>
+Other random links:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://datasciencelab.wordpress.com/2013/12/12/clustering-with-k-means-in-python/">Clustering With K-Means in Python</a></li>
+<li><a href="http://jeroenjanssens.com/2013/09/19/seven-command-line-tools-for-data-science.html">Command-line tools for Data Science</a></li>
+<li>From the link above: <a href="https://github.com/bitly/data_hacks">Bitly Data<sub>Hacks</sub></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Data Journalism</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+A really nice tutorial on how to do data journalism (in German though)
+<a href="http://howto.ddjdach.de/">http://howto.ddjdach.de/</a>. On the right side there various bars with links to nice tools to help
+different stages fo the data journalism (and to some extend) data science process.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Download Music from Soundcloud</h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<p>
+We culd discuss the whole day the ethics of downlaoding a song from <a href="http://www.soundcloud.com/">Soundcloud.</a> However, sometimes
+is what you want to do. I found a little free application for Mac written by a Swiss guy.
+</p>
+
+<p>
+<a href="http://black-burn.ch/scd/">http://black-burn.ch/scd/</a>
+</p>
+
+<p>
+You can thank me later.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">Nu-Cumbia and Alternative-Folk</h2>
+<div class="outline-text-2" id="text-orgheadline4">
+<p>
+Talking of sound cloud I am creating a couple of list of music. One is from Cumbia remixes / convers of
+famous pop-songs (Yeah, that thing actually exists). The other  is what I call Colombia Alternative-Folk.
+They are Colombian groups that play Colombian Folk music (there are many genres and subgenres) but with a twist.
+</p>
+
+
+
+<iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/62020471&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+
+
+<iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/4766097&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"></iframe>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5">Delete Training whitespace on Emacs (for Python)</h2>
+<div class="outline-text-2" id="text-orgheadline5">
+<p>
+I had issues keeping my Python source codes without trailing whitespaces. After a bit research I came up with my own
+version (just for Python files, as it was affecting other modes like Deft/Org).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #DCDCCC;">(</span><span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">py-delete-whitespace</span> <span style="color: #BFEBBF;">()</span>
+          <span style="color: #BFEBBF;">(</span><span style="color: #F0DFAF; font-weight: bold;">when</span> <span style="color: #D0BF8F;">(</span>eq <span style="color: #93E0E3;">(</span>buffer-local-value 'major-mode <span style="color: #9FC59F;">(</span>current-buffer<span style="color: #9FC59F;">)</span><span style="color: #93E0E3;">)</span> 'python-mode<span style="color: #D0BF8F;">)</span>
+           <span style="color: #D0BF8F;">(</span>delete-trailing-whitespace<span style="color: #D0BF8F;">)</span><span style="color: #BFEBBF;">)</span><span style="color: #DCDCCC;">)</span>
+
+<span style="color: #DCDCCC;">(</span>add-hook 'before-save-hook 'py-delete-whitespace<span style="color: #DCDCCC;">)</span>
+</pre>
+</div>
+
+<p>
+Learning a bit of e-lisp every day.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6">Spacemacs /  Prelude Emacs Distributions</h2>
+<div class="outline-text-2" id="text-orgheadline6">
+<p>
+Apparently the last trend is to use neither Emacs nor Vim but a mixture of them.
+I found out a interesting Emacs distribution that aims to provide Vim-like functionality
+while keeping the Emacs power. I also found another interesting distribution called Prelude.
+I am always looking for ways to improve my workflow and Prelude seems to bring a batteries include
+distribution  of Emacs. I am going to try it out both and decide whether to stay with my <a href="http://mfcabrera.com/geeky/2013/06/06/new-emacs-configuration.blog.org/">current Emacs configuration</a>
+or switch to one of these distribution.
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/syl20bnr/spacemacs">Spacemacs</a></li>
+<li><a href="https://github.com/bbatsov/prelude">Prelude</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7">Mapfrappe</h2>
+<div class="outline-text-2" id="text-orgheadline7">
+<p>
+I found a nice tool called <a href="http://mapfrappe.com/">MAPfrappe</a> "compare" maps and create cartographic "mixtures".
+</p>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><a href="http://mapfrappe.com/?show=27990">Munich on Berlin</a></h3>
+<div class="outline-text-3" id="text-orgheadline8">
+<div class="img-center">
+<img src="/files/images/munich_on_berlin.png"  class="img-polaroid"  />
+<p> Munich on Berlin </p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><a href="http://mapfrappe.com/?show=27987">Berlin on Munich</a></h3>
+<div class="outline-text-3" id="text-orgheadline9">
+<div class="img-center">
+<img src="/files/images/berlin_on_munich.png"  class="img-polaroid"  />
+<p> Berlin on Munich </p>
+</div>
+</div>
+</div>
+</div>

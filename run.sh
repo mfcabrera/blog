@@ -1,2 +1,2 @@
-#!/bin/sh 
-jekyll --auto --server
+#!/bin/sh
+jekyll serve --watch --incremental

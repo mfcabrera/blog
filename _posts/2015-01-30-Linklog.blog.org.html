@@ -1,0 +1,150 @@
+---
+title: Linklog - Feb 2015
+category: geeky
+date: 2015-02-05
+layout: post
+author: Miguel Cabrera
+published: true
+---
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Intro</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+As it generally takes a lot of time to write a proper blog, I have decided to give up to my laziness and start posting
+more often by simply sharing links to things I found during the week / month. It will also help me keeping track of links that
+find interesting.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Syncing automatically files using Rsync and iotifywatch / fswatch</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+Although Emacs has the power to connect directly to servers through SSH, I do like to have my code locally first and
+them uploaded to a server, for example to run a Hadoop job or some machine learning algorithm.
+For that <a href="http://en.wikipedia.org/wiki/Rsync">Rsync</a> is really nice and I initially  wrote a small function that I assigned to a keyboard shortcut:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elisp"><span style="color: #DCDCCC;">(</span><span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">sync-sentency</span> <span style="color: #BFEBBF;">()</span>
+  <span style="color: #BFEBBF;">(</span>interactive<span style="color: #BFEBBF;">)</span>
+  <span style="color: #BFEBBF;">(</span>shrink-window-if-larger-than-buffer<span style="color: #BFEBBF;">)</span>
+  <span style="color: #BFEBBF;">(</span>shell-command <span style="color: #CC9393;">"cd ~/development ; rsync --exclude='lib/stanford-ner' --exclude=files  -az --progr</span><span style="color: #DC8CC3; background-color: #3F3F3F;">ess sentency  vmx:sentency &amp; "</span><span style="color: #DC8CC3; background-color: #3F3F3F;"> </span><span style="color: #BFEBBF; background-color: #3F3F3F;">)</span><span style="color: #DCDCCC; background-color: #3F3F3F;">)</span>
+<span style="color: #DCDCCC;">(</span>global-set-key <span style="color: #BFEBBF;">(</span>kbd <span style="color: #CC9393;">"C-c C-y "</span><span style="color: #BFEBBF;">)</span> 'sync-sentency<span style="color: #DCDCCC;">)</span>
+</pre>
+</div>
+<p>
+But then I grew tired or hitting that command always so I did a bit a research and found a couple of commands: <code>fswatch</code> and <code>inotifywait</code>.
+The first is available for many *NIX systems. Below a couple of interesting links and scripts:
+</p>
+
+<ul class="org-ul">
+<li><a href="http://stackoverflow.com/questions/1515730/is-there-a-command-like-watch-or-inotifywait-on-the-mac">http://stackoverflow.com/questions/1515730/is-there-a-command-like-watch-or-inotifywait-on-the-mac</a></li>
+<li><a href="https://gist.github.com/senko/1154509">https://gist.github.com/senko/1154509</a></li>
+</ul>
+
+<p>
+I ended up modifying a existing project to adapt it to my needs and you can find the code here. It basically  check for a change on a file
+and uploads it accordingly using rsync. So no more hitting shortcuts.
+<a href="https://github.com/mfcabrera/fswatch-rsync">https://github.com/mfcabrera/fswatch-rsync</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Elpy, PEP8 and friends</h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<p>
+I thought my coding style in Python was pretty good. Then I  started using Pep8 and friends to check my code and I realized I sucked big time.
+Good thing is that thanks to modes like <a href="https://github.com/jorgenschaefer/elpy">Elpy</a> (Nice Python mode for Mac) I can check my code while I write, and I can learn about
+the proper style. Hopefully that will help me become a better <i>Pythonista</i> (<a href="http://www.quora.com/Whats-the-exact-difference-between-a-Pythoneer-and-a-Pythonista">or <i>Pythoneer</i></a>?).
+A nice tutorial can be found <a href="http://onthecode.com/post/78817537628/emacs-on-steroids-for-python-elpy-el">here</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">Scratch Programming Language</h2>
+<div class="outline-text-2" id="text-orgheadline4">
+<p>
+I took a look at the <a href="http://en.wikipedia.org/wiki/Scratch_(programming_language)">Scratch</a> programming language and went through a couple of tutorials. Really intuitive.
+I am thinking about teaching it to my niece. It has  a large community and the documentation is in many languages and a recently
+released <a href="https://www.edx.org/course/programming-scratch-harveymuddx-cs002x">MOOC</a>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5">Github aliases</h2>
+<div class="outline-text-2" id="text-orgheadline5">
+<p>
+Although for Git I use the super cool <a href="https://magit.github.io/">Magit</a> (mode for Emacs), sometimes I like to use the the command line directly. I started checking
+At TrustYou we use Git, although not as professionally as we would like. I found a nice post featuring a lot of useful
+Github aliases from one of the developers of Github: <a href="http://haacked.com/archive/2014/07/28/github-flow-aliases/">http://haacked.com/archive/2014/07/28/github-flow-aliases/</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6">Working for Open Data Notebooks</h2>
+<div class="outline-text-2" id="text-orgheadline6">
+<p>
+ While looking on information on how to integrate JS and IPython Notebook I stumbled upon the <a href="https://github.com/rdhyee/working-open-data-2014">files</a> for the class <i>Working for Open Data</i>.
+There are no videos of the class but the slides, the readings and the IPython notebook are really nice.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7">Share You Stack</h2>
+<div class="outline-text-2" id="text-orgheadline7">
+<p>
+Interesting projects where you share your technology stack: <a href="http://stackshare.io/stacks">http://stackshare.io/stacks</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8">MOOCS</h2>
+<div class="outline-text-2" id="text-orgheadline8">
+<p>
+Some MOOCs I am trying to follow (in that order):
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.coursera.org/course/mmds">Mining of Massive Datasets</a></li>
+<li><a href="http://online.stanford.edu/course/statistical-learning">Statistical Learning</a></li>
+<li><a href="https://www.edx.org/course/introduction-probability-science-mitx-6-041x-0">Introduction to Probability - The Science of Uncertainty</a></li>
+<li><a href="https://www.coursera.org/course/abletonlive">Introduction to Ableton Live</a></li>
+</ul>
+
+<p>
+There are some MOOCs running that although I find them really interesting, I have no time to follow:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.coursera.org/course/geoint">Geospatial Intelligence &amp; the Geospatial Revolution</a></li>
+<li><a href="https://www.coursera.org/course/musicproduction">Introduction to Music Production</a></li>
+</ul>
+<p>
+I actually took the last one, but I did not complete all homeworks, really nice overview of music production.
+</p>
+
+<p>
+Upcoming MOOCS that I find attractive and I am going to try to follow:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.edx.org/course/scalable-machine-learning-uc-berkeleyx-cs190-1x#.VNnrZ7CG-U4">Scalable Machine Learning</a></li>
+<li><a href="https://www.coursera.org/course/statistics">Data Analysis and Statistical Inference</a></li>
+<li><a href="https://www.coursera.org/course/textanalytics">Text Mining and Analytics</a></li>
+<li><a href="https://www.coursera.org/course/algs4partII">Algorithms, Part II</a></li>
+</ul>
+</div>
+</div>

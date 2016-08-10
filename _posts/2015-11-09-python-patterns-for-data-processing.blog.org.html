@@ -1,0 +1,262 @@
+---
+title: Things I knew I before I started using Python for Data Processing
+category: python
+date: 2015-11-08
+layout: post
+author: Miguel Cabrera
+published: false
+---
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1">Intro</h3>
+<div class="outline-text-3" id="text-orgheadline1">
+<p>
+I came into touch with Python back when I coursing a M.Sc. at the <a href="http://www.tum.de/">TUM</a> during a Deep Learning
+<a href="https://github.com/mfcabrera/deeplearning-praktikum-ss2013">pratical course</a>. By then I knew Python was becoming popular in the sciences
+as a replacement for Matlab, in particular the <a href="http://brml.org/brml/">research group</a> offering the
+coursea was particulary invested in its use for NN programming.That meant that the first things
+I learned about the language   was basic usage of numerical/machine learning libraries such as <a href="http://www.numpy.org/">Numpy</a> and <a href="http://deeplearning.net/software/theano/">Theano</a>.
+</p>
+
+<p>
+The issue of learning Python that way, is that I never had a proper introduction to the language from  Software Engineering
+perspetive. I had no idea about built-in libraries, idioms and the tools surrounding it. The risk with this is than when developing data science related
+software one might end up writing some <a href="http://blog.kaggle.com/2012/10/04/engineering-practices-in-data-science/">spaguetti data science code</a>.
+</p>
+
+<pre class="example">
+When I started working as Data Engineer/Scientist for TrustYou that was mi situation. I had previously
+worked as Software Developer (mostly Java/Scala based environments) previously, so I knew some of the Software Engineering
+language agnost techniques and practices (Object Oriented programming, design patterns, data structures) I was not familiar
+at all with Python standard libraries and the idioms. These, in my humble opinion are key for writing maintainable code.
+
+Although I suspected of the existence of such "best practices" (I kind of hate that term)  I must  confess  did not try hard to follow any standard, nor they were required from my employer.
+Also, my lack of knowledge of Python did not allow me to use powerful language constructs.  Needless to say the quality of my code was subpar.
+After the couple of projects I started learning more about existing standards and tool set, i.e. coding conventions,  project structure, testing, packaging, etc.
+</pre>
+
+<p>
+So, for a bit more than a year  I have been working with Python, slowly learning about the stack. I have "found" a collection of technques that
+help a lot for data cleaning and processing, important steps in any data science pipeline.  I can divide such features or tricks into two categories.
+The first one are those features that allow you write clean maitainable code, namely code with [[ ]SOLID]] charactersitics and the other ones that
+allows you to do data processing either better, faster or cleaner and have a different purpose of usual stack of used by Python Data Scientist (Numpy, Scipy, Pandas).
+</p>
+
+<p>
+Some disclaimers here:
+</p>
+<ul class="org-ul">
+<li>Many Python software developers are familiar with thes techniques but most of the people starting with Python and in
+particular those learning Python along  Numpy, Scipy, Pandas and similar frameworks are not.</li>
+
+<li>Most of Data Structures in Python are indeed slower than many Numpy counterpart, but some of them are way more flexible.(Write more about this)</li>
+
+<li>Sometimes when writing Data Processing Pipelines you are processing record by record, i.e. in a <i>map</i> stage of a
+Hadoop Job, or the the data is relative large, semi-structured or textual data, holding in Numpy array or Pandas DataFrame does not make sense.</li>
+
+<li>Sometimes you want to integrate your models with existing software and you want to do it in a clean and idiomatic ways or you want to make
+them maintainable or easily extended.</li>
+</ul>
+
+<p>
+I can divide the things I found into two categories: features of Python that allow you to write clean reusable code and features of Python that
+make data processing easier.
+</p>
+
+<p>
+So with this in mind, let's get started.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9">Technical Part</h2>
+<div class="outline-text-2" id="text-orgheadline9">
+</div><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">Autovivification</h3>
+<div class="outline-text-3" id="text-orgheadline2">
+<p>
+<a href="https://en.wikipedia.org/wiki/Autovivification#Python">Autovivification</a>  as cool as its name, and it is not because is reminds you of the <i>Walking Dead</i> (does it?), it is because is a nice
+way of generating tree-like structures in Python using dictionaries. Let's take the example found in Wikipedia:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #F0DFAF; font-weight: bold;">from</span> collections <span style="color: #F0DFAF; font-weight: bold;">import</span> defaultdict
+
+<span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">tree</span>():
+<span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>  <span style="color: #F0DFAF; font-weight: bold;">return</span> defaultdict(tree)
+
+<span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">common name by class, order, genus, and type-species</span>
+<span style="color: #DFAF8F;">common_name</span> = tree()
+common_name[<span style="color: #CC9393;">'Mammalia'</span>][<span style="color: #CC9393;">'Primates'</span>][<span style="color: #CC9393;">'Homo'</span>][<span style="color: #CC9393;">'H. sapiens'</span>] = <span style="color: #CC9393;">'human being'</span>
+<span style="color: #F0DFAF; font-weight: bold;">return</span> common_name
+</pre>
+</div>
+
+<p>
+So let's start slow. We are using the <code>defaultdict</code> class from the <code>collections</code> module. This module is gold for data processing related tasks, as it contains specializedd
+alternatives to the general purpose data structures. The <code>defaultdict</code> class works in the following way:  It works like normal dictionary with the exception that
+when a key does not exists in a dictonary, instead of throwing a <code>KeyError</code> will create a default element for that key and return it. The default element is created
+by a function that is pass as parameter (in this case <code>tree</code>). So if you write <code>defaultdict(list)</code> it will create a default item that is an empty list.
+</p>
+
+<p>
+The autovivification works by using a nice recursive function creating <code>defaultdict(list)</code> which default element is also a default tree. Well, why is this useful in the context of
+data processing and evaluation. Well something you are reading tabular files (i.e. <code>tsv</code>, <code>csv</code>, etc) that its content can be arranged in a tree like manner, but you don't know the depth.
+</p>
+
+<p>
+This <a href="http://stackoverflow.com/questions/635483/what-is-the-best-way-to-implement-nested-dictionaries-in-python">question</a> on Stackoverflow shows different alternatives to do the same (maybe in a cleaner way):
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #F0DFAF; font-weight: bold;">class</span> <span style="color: #7CB8BB;">Vividict</span>(<span style="color: #DCDCCC; font-weight: bold;">dict</span>):
+<span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>   <span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">__missing__</span>(<span style="color: #F0DFAF; font-weight: bold;">self</span>, key):
+<span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>   <span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>   <span style="color: #DFAF8F;">value</span> = <span style="color: #F0DFAF; font-weight: bold;">self</span>[key] = <span style="color: #DCDCCC; font-weight: bold;">type</span>(<span style="color: #F0DFAF; font-weight: bold;">self</span>)()
+<span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>   <span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>   <span style="color: #F0DFAF; font-weight: bold;">return</span> value
+</pre>
+</div>
+
+<p>
+It is the same idea. In this case, if the item is not found the <code>__missing__</code> special function is called
+and the a default dict (of the same subtye) is returned.
+</p>
+
+<p>
+Let's say we have a fictional tabular data and we need to form a tree like structure with and arbitrary structure
+The first column is an <i>id</i>, the second is a <i>query</i> and the two last columns are two scores:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">id-1</td>
+<td class="org-left">a</td>
+<td class="org-right">20</td>
+<td class="org-right">10</td>
+</tr>
+
+<tr>
+<td class="org-left">id-2</td>
+<td class="org-left">a</td>
+<td class="org-right">50</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">id-1</td>
+<td class="org-left">b</td>
+<td class="org-right">-1</td>
+<td class="org-right">-5</td>
+</tr>
+
+<tr>
+<td class="org-left">id-3</td>
+<td class="org-left">c</td>
+<td class="org-right">10</td>
+<td class="org-right">30</td>
+</tr>
+
+<tr>
+<td class="org-left">id-2</td>
+<td class="org-left">d</td>
+<td class="org-right">-1</td>
+<td class="org-right">-2</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+And let's say we would like to end up with something like:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-json">{<span style="color: #F0DFAF; font-weight: bold;">"id-1"</span>:
+ {<span style="color: #F0DFAF; font-weight: bold;">"a"</span> :
+  {<span style="color: #F0DFAF; font-weight: bold;">"score_1"</span> : <span style="color: #BFEBBF;">20</span>, <span style="color: #F0DFAF; font-weight: bold;">"score_2"</span> : <span style="color: #BFEBBF;">10</span>  }
+ }
+ {<span style="color: #F0DFAF; font-weight: bold;">"b"</span> :
+  {<span style="color: #F0DFAF; font-weight: bold;">"score_1"</span> : -<span style="color: #BFEBBF;">1</span>, <span style="color: #F0DFAF; font-weight: bold;">"score_2"</span> : -<span style="color: #BFEBBF;">5</span>  }
+ }
+}
+</pre>
+</div>
+
+<p>
+There are many ways to parse this, but using the trick we learned before would be something like:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #F0DFAF; font-weight: bold;">from</span> collections <span style="color: #F0DFAF; font-weight: bold;">import</span> defaultdict
+
+<span style="color: #F0DFAF; font-weight: bold;">def</span> <span style="color: #93E0E3;">tree</span>():
+<span style="color: #DCDCCC; background-color: #4F4F4F;"> </span>  <span style="color: #F0DFAF; font-weight: bold;">return</span> defaultdict(tree)
+
+<span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">common name by class, order, genus, and type-species</span>
+<span style="color: #DFAF8F;">common_name</span> = tree()
+common_name[<span style="color: #CC9393;">'Mammalia'</span>][<span style="color: #CC9393;">'Primates'</span>][<span style="color: #CC9393;">'Homo'</span>][<span style="color: #CC9393;">'H. sapiens'</span>] = <span style="color: #CC9393;">'human being'</span>
+<span style="color: #F0DFAF; font-weight: bold;">return</span> common_name
+</pre>
+</div>
+
+
+<p>
+dictionary the a funtion will be executed to create a default element for that key.
+</p>
+
+<p>
+As you can see from the results, each time the we  call <code>common_name[key]</code>  the tree function is called returns another <code>defaultdict</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Counting</h3>
+<div class="outline-text-3" id="text-orgheadline3">
+<p>
+Interesting Link - Interesting link <a href="http://treyhunner.com/2015/11/counting-things-in-python/">http://treyhunner.com/2015/11/counting-things-in-python/</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Iterators and Iterables</h3>
+<div class="outline-text-3" id="text-orgheadline4">
+<p>
+<a href="http://radimrehurek.com/2014/03/data-streaming-in-python-generators-iterators-iterables/">http://radimrehurek.com/2014/03/data-streaming-in-python-generators-iterators-iterables/</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Namedtuples</h3>
+</div>
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6">Not everythiong is Numpy, Pandas or Lists</h3>
+<div class="outline-text-3" id="text-orgheadline6">
+<ul class="org-ul">
+<li>Show Dash and Bcolz</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7">Enriche Pattern (Filters and extra information)</h3>
+</div>
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8">Compression is your friend</h3>
+</div>
+</div>

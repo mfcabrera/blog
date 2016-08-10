@@ -16,12 +16,12 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ ASSET_PATH }}/css/style.css?body=1" rel="stylesheet"
+    <link href="/assets/themes/mfcabrera/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/mfcabrera/css/style.css?body=1" rel="stylesheet"
           type="text/css" media="all">
-    <link href="{{ ASSET_PATH }}/css/notebook.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/mfcabrera/css/notebook.css" rel="stylesheet" type="text/css" media="all">
 
-    <link href="{{ ASSET_PATH }}/bootstrap/css/mfcabrera.css"
+    <link href="/assets/themes/mfcabrera/bootstrap/css/mfcabrera.css"
           rel="stylesheet" type="text/css" media="all">
     <link rel="alternate"
        type="application/atom+xml"
@@ -30,10 +30,12 @@
 
 
 
-   
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans'
-    rel='stylesheet' type='text/css'>
-    
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Vollkorn">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" type="text/css">
+
     <script type="text/javascript" src="//use.typekit.net/mmx7lgd.js"></script>
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
@@ -59,35 +61,35 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-  
+
 </script>
-  
+
   </head>
 
   <body>
 
-   
+
     <div class="container">
 
       <div class="content">
         {{ content }}
 
-    
-      
+
+
         </div>
-      
-     
+
+
       <footer>
-        <p>&copy; {{ site.author.name }} 2012  
-          with help from <a href="http://www.gnu.org/s/emacs/" target="_blank">Emacs</a>, 
+        <p>&copy; {{ site.author.name }} 2012
+          with help from <a href="http://www.gnu.org/s/emacs/" target="_blank">Emacs</a>,
           <a href="http://orgmode.org/" title="Org: an Emacs mode for Notes"
           target="_blank">Org-mode</a>, <a href="https://github.com/mojombo/jekyll"
-          target="_blank"> Jekyll</a>  
+          target="_blank"> Jekyll</a>
           and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
         </p>
       </footer>
 
-  
+
     </div> <!-- /container -->
     {% include JB/analytics %}
   </body>
