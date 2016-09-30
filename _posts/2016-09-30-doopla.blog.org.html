@@ -1,0 +1,55 @@
+---
+title: Ha-doopla! Tool for displaying Python Hadoop Streaming Errors
+category: python
+date: 2016-09-30
+layout: post
+author: Miguel Cabrera
+published: true
+---
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Introducing Doopla</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+At <a href="http://trustyou.com/">TrustYou</a> we use  <a href="https://github.com/spotify/luigi">Luigi</a> a lot  for building our Data Pipelines, mostly made of batch Hadoop map reduce Job. We have a couple of clusters,
+one using a pretty old version of Hadoop and one more <b>recent</b>, where we use HDP 2.7.
+</p>
+
+<p>
+Writing Hadoop MR jobs in Python is quite nice, and it is even more straight forward using Luigi's support. The big issue is when you are developing and you have
+to debug. Although I try to decrease the amount of time of in-cluster debugging (by for example using domain classes and writing unit tests against them), sometimes you have
+no choice.
+</p>
+
+<p>
+And then the pain comes. One you Mapper or your reducer fails most of the times Luigi cannot show you the reason of the failure and you have to go to the web interface
+and manually click through many times until you sort of find the error message, with hopefully enough debugging information.
+</p>
+
+<p>
+So after debugging my MR jobs this way for a while I got really annoyed and decided to automate that part and I created <a href="https://github.com/trustyou/doopla">Doopla</a>
+, a small script that fetches the the output (generally <code>stderr</code>) of a failed mapper and / or reducer, and using <a href="http://pygments.org/">Pygments</a> highlights the failing Python code. It not jobid is specified if will fetch
+the output from the last failed job.
+It was a two hours hack at the beginning so it is not a code I am proud of so I made it public and even send it to Pypi (a chance to learn something new as well), so it can be installed easily by just writing  <code>pip install doopla</code>.
+</p>
+
+<div class="img-center">
+<img src="https://camo.githubusercontent.com/03274e7b1e5b5dea4f988254bff891fce5c6133a/68747470733a2f2f7777772e64726f70626f782e636f6d2f732f61743130787061757432787a3269772f73616d706c652e706e673f7261773d31"  class="img-polaroid"  />
+</div>
+
+<p>
+It initally only supported our old Hadoop version, but last one worked with HDP 2.7 (and I guess it might work for other Hadoop versin). New version
+of Hadoop offer an REST API for querying job status and information, but I kept scraping the information (hey, it is a hack).
+</p>
+
+<p>
+You can also integrate that in Emacs (supporting the highlighting and everything) with code like:
+</p>
+
+<script src="https://gist.github.com/mfcabrera/7fc488488cd13e68660d1a751ee8e383.js"></script>
+
+<p>
+And then hit <code>M-x doopla</code>  to obtain the same without leaving your lovely editor.
+</p>
+</div>
+</div>

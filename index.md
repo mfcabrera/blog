@@ -14,12 +14,12 @@ description: Miguel Fernando Cabrera Weblog
 <div class="span7"  id="personal" >
 <ul>
 
-  <li>I work as a <span itemprop="jobTitle">Data Engineer/Scientist</span> doing  Machine Learning related
+  <li>I work as a <span itemprop="jobTitle">Data Engineer/Scientist</span> doing data related
   stuff for <a  href="http://www.trustyou.com" itemprop="affiliation" target="_blank">TrustYou</a>.</li>
   <li>Before that I completed a <span itemprop="jobTitle"> M.Sc. in Informatics</span> at the  <span itemprop="affiliation"><a href="http://www.tum.de"  target="_blank"> Technical Univeristy Munich</a></span> and one in Technology Management at the <a  href="http://www.cdtm.de" target="_blank">Center for Digital Technology Management</a> </li>
-  <li>I founded and organize the <a href="http://www.meetup.com/Munich-Datageeks/"
-  target="_blank">Munich DataGeeks</a> Meetup.</li>
-  <li> I live in Germany and I conmmute a lot between Munich and Berlin</li>
+  <li>I founded and organized the <a href="http://www.meetup.com/Munich-Datageeks/"
+  target="_blank">Munich DataGeeks</a> Meetup until end of 2014.</li>
+  <li>I live in Germany and I conmmute a lot between Munich and Berlin</li>
   <li>I  have a non overly technical blog on <a href="https://medium.com/@mfcabrera">Medium</a>.</li>
   <li>From time to time I <a href="http://github.com/mfcabrera">code</a>,
   mostly in  Python.</li>
